@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CG - RA90562</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+
+<body>
+    <h1 id="title">Trabalho de Computação Gráfica</h1>
+    <div class="body-center">
+        <ul class="forms">
+            <li><button class="forms-btn" onclick="cEL(1)">Linha</button></li>
+            <li><button class="forms-btn" onclick="cEL(2)">Retângulo</button></li>
+            <li><button class="forms-btn" onclick="cEL(3)">Círculo</button></li>
+            <li><button class="forms-btn" onclick="cEL(4)">Triangulo</button></li>
+        </ul>
+        
+        <canvas id="workcanvas" width="640px" height="480px" onmousedown="storeGuess(event)">Seu navegador não tem suporte à exibição. Por favor, tente em outro.</canvas>
+        <br>
+        <button onclick="clearCanvas()">Limpar</button><br>
+        Linha de comando: <input id="commandLine"><button onclick="submitCommandLine()">Enter</button>
+    </div>
+    
+    <script src="/classes.js"></script>
+    <script src="/helpers.js"></script>
+    <script src="/drawers.js"></script>
+    <script src="/script.js"></script>
+</body>
+
+</html>

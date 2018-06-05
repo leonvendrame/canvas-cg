@@ -1,0 +1,27 @@
+#title {
+    text-align: center;
+    font-size: 20pt;
+}
+
+.body-center {
+    text-align: center;
+}
+
+.forms li {
+    display: inline;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#workcanvas {
+    border: 5px;
+    border-color: black;
+    border-style: solid;
+    /* border-radius: 10px; */
+    cursor: pointer;
+}
+
+#commandLine {
+    width: 400px;
+    margin: 25px 0;
+}
