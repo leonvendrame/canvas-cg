@@ -1,86 +1,53 @@
-function drawCircle(coordinates, radius) {
-
-    if (coordinates.length != 4 && coordinates.length != 2) {
-        console.log("Erro: Número incorreto de pontos.");
-        return;
-    }
-
-    var circle = new Circle(coordinates[0], coordinates[1], radius);
-    shapesList.push(circle);
-
+function drawCircle(circle) {
     context.beginPath();
-    context.arc(coordinates[0], coordinates[1], radius, 0, 2*Math.PI);
+    context.arc(circle.center['x'], circle.center['y'], circle.radius, 0, 2 * Math.PI);
+    if (circle.selected) {
+        context.strokeStyle = "red"
+    }
     context.stroke();
     context.closePath();
+    resetStrokeColor();
 }
 
-function drawTriangle(coordinates) {
-
-    if (coordinates.length != 6) {
-        console.log("Erro: Número incorreto de pontos.");
-        return;
-    }
-    
-    var triangle = new Triangle(coordinates[0], coordinates[1],
-                                coordinates[2], coordinates[3],
-                                coordinates[4], coordinates[5]);
-
-    shapesList.push(triangle);
+function drawTriangle(triangle) {
     context.beginPath();
-    context.moveTo(coordinates[0], coordinates[1]);
-    context.lineTo(coordinates[2], coordinates[3]);
-    context.moveTo(coordinates[2], coordinates[3]);
-    context.lineTo(coordinates[4], coordinates[5]);
-    context.moveTo(coordinates[4], coordinates[5]);
-    context.lineTo(coordinates[0], coordinates[1]);
+    context.moveTo(triangle.origin['x'], triangle.origin['y']);
+    context.lineTo(triangle.dest1['x'], triangle.dest1['y']);
+    context.moveTo(triangle.dest1['x'], triangle.dest1['y']);
+    context.lineTo(triangle.dest2['x'], triangle.dest2['y']);
+    context.moveTo(triangle.dest2['x'], triangle.dest2['y']);
+    context.lineTo(triangle.origin['x'], triangle.origin['y']);
+    if (triangle.selected) {
+        context.strokeStyle = "red"
+    }
     context.stroke();
     context.closePath();
+    resetStrokeColor();
 }
 
-function drawLine(coordinates, modifier) {
+function drawLine(line) {
     context.beginPath();
-
-    if (coordinates.length != 4) {
-        console.log("Erro: Número incorreto de pontos.");
-        return;
+    context.moveTo(line.origin['x'], line.origin['y']);
+    context.lineTo(line.dest['x'], line.dest['y']);
+    if (line.selected) {
+        context.strokeStyle = "red"
     }
-
-    var line = new Line(coordinates[0], coordinates[1],
-                        coordinates[2], coordinates[3]);
-
-    shapesList.push(line);
-
-    context.moveTo(coordinates[0], coordinates[1]);
-    context.lineTo(coordinates[2], coordinates[3]);
-    if (modifier != undefined) {
-        context.strokeStyle = "red";
-    }
-    
     context.stroke();
     context.closePath();
+    resetStrokeColor();
 }
 
-function drawRectangle(coordinates, selected) {
+function drawRectangle(rectangle) {
     context.beginPath();
-
-    if (coordinates.length != 4) {
-        console.log("Erro: Número incorreto de pontos.");
-        return;
-    }
-
-    var rectangle = new Rectangle(coordinates[0], coordinates[1],
-                                    coordinates[2], coordinates[3]);
-    shapesList.push(rectangle);
-
-    context.moveTo(coordinates[0], coordinates[1]);
-    context.lineTo(coordinates[0], coordinates[3]);
-    context.moveTo(coordinates[0], coordinates[3]);
-    context.lineTo(coordinates[2], coordinates[3]);
-    context.moveTo(coordinates[2], coordinates[3]);
-    context.lineTo(coordinates[2], coordinates[1]);
-    context.moveTo(coordinates[2], coordinates[1]);
-    context.lineTo(coordinates[0], coordinates[1]);
-    if (selected) {
+    context.moveTo(rectangle.origin['x'], rectangle.origin['y']);
+    context.lineTo(rectangle.dest['x'], rectangle.origin['y']);
+    context.moveTo(rectangle.dest['x'], rectangle.origin['y']);
+    context.lineTo(rectangle.dest['x'], rectangle.dest['y']);
+    context.moveTo(rectangle.dest['x'], rectangle.dest['y']);
+    context.lineTo(rectangle.origin['x'], rectangle.dest['y']);
+    context.moveTo(rectangle.origin['x'], rectangle.dest['y']);
+    context.lineTo(rectangle.origin['x'], rectangle.origin['y']);
+    if (rectangle.selected) {
         context.strokeStyle = "red"
     }
     context.stroke();

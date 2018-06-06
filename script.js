@@ -7,6 +7,8 @@ var id = 0;
 var coords = [];
 var shapesList = [];
 
+var counts = {line: 2};
+
 var countLine = 2;
 var countRectangle = 2;
 var countTriangle = 3;
@@ -61,6 +63,24 @@ function cEL(button) {
     coords = [];
 }
 
+function getPoints(x, y, count, original, func) {
+    if (count > 0) {
+        coords.push(x, y);
+        --count;
+    }
+    if (count == 0) {
+        if (func == createCircle) {
+            var radius = Math.abs(Math.hypot(coords[2]-coords[0], coords[3]-coords[1]));
+            func(coords, radius);
+        } else {
+            func(coords);
+        }
+        coords = [];
+        count = original;
+    }
+    return count;
+}
+
 function getLinePoints (x, y) {
     if (countLine > 0) {
         coords.push(x);
@@ -68,7 +88,7 @@ function getLinePoints (x, y) {
         --countLine;
     }
     if (countLine == 0) {
-        drawLine(coords);
+        createLine(coords);
         coords = [];
         countLine = 2;
     }
@@ -81,7 +101,7 @@ function getRectanglePoints (x, y) {
         --countRectangle;
     }
     if (countRectangle == 0) {
-        drawRectangle(coords);
+        createRectangle(coords);
         coords = [];
         countRectangle = 2;
     }
@@ -94,7 +114,7 @@ function getTrianglePoints (x, y) {
         --countTriangle;
     }
     if (countTriangle == 0) {
-        drawTriangle(coords);
+        createTriangle(coords);
         coords = [];
         countTriangle = 3;
     }
@@ -108,7 +128,7 @@ function getCirclePoints (x, y) {
     }
     if (countCircle == 0) {
         var radius = Math.abs(Math.hypot(coords[2]-coords[0], coords[3]-coords[1]));
-        drawCircle(coords, radius);
+        createCircle(coords, radius);
         coords = [];
         countCircle = 2;
     }
@@ -120,15 +140,19 @@ function storeGuess(event) {
     // console.log("X coords: " + x + ", Y coords: " + y);
 
     if (globalOption == 0) {
-        alert("Selecione uma função primeiramente.");
+        alert("Erro: Nenhuma função selecionada.");
     } else if (globalOption == 1) {
-        getLinePoints(x, y);
+        // getLinePoints(x, y);
+        countLine = getPoints(x, y, countLine, 2, createLine);
     } else if (globalOption == 2) {
-        getRectanglePoints(x, y);
+        // getRectanglePoints(x, y);
+        countRectangle = getPoints(x, y, countRectangle, 2, createRectangle);
     } else if (globalOption == 3) {
-        getCirclePoints(x, y);
+        // getCirclePoints(x, y);
+        countCircle = getPoints(x, y, countCircle, 2, createCircle);
     } else if (globalOption == 4) {
-        getTrianglePoints(x, y);
+        // getTrianglePoints(x, y);
+        countTriangle = getPoints(x, y, countTriangle, 3, createTriangle);
     }
 }
 
@@ -139,15 +163,18 @@ function draw(shapeObject) {
     switch(shapeObject.constructor.name) {        
         case "Line":
             drawLine([shapeObject.origin['x'], shapeObject.origin['y'],
-                        shapeObject.dest['x'], shapeObject.dest['y']]);
+                        shapeObject.dest['x'], shapeObject.dest['y']],
+                        selected);
             break;
         case "Triangle":
             drawTriangle([shapeObject.origin['x'], shapeObject.origin['y'],
                             shapeObject.dest1['x'], shapeObject.dest1['y'],
-                            shapeObject.dest2['x'], shapeObject.dest2['y']]);
+                            shapeObject.dest2['x'], shapeObject.dest2['y']],
+                            selected);
             break;
         case "Circle":
-            drawCircle([shapeObject.center['x'], shapeObject.center['y']], shapeObject.radius);
+            drawCircle([shapeObject.center['x'], shapeObject.center['y']],
+                        shapeObject.radius, selected);
             break;
         case "Rectangle":
             drawRectangle([shapeObject.origin['x'], shapeObject.origin['y'],
@@ -157,14 +184,14 @@ function draw(shapeObject) {
 }
 
 function reDrawEverything() {
-    for (var index in shapesList) {
-        draw(shapesList[index]);
+    for (var i = 0; i < shapesList.length; i++) {
+        var shape = shapesList.shift();
+        draw(shape);
     }
 }
 
 function clearCanvas(keep) {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    // reDrawEverything();
     if (keep != true) {
         shapesList = [];
     }

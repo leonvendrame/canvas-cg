@@ -1,9 +1,8 @@
 class Shape {
-    constructor() {
+    constructor(selected) {
         this.id = id++;
         this.selected = false;
     }
-    
     getId() {
         return this.id;
     }
@@ -38,8 +37,6 @@ class Rectangle extends Shape {
     constructor(x, y, a, b) {
         super();
         this.origin = {'x': x, 'y': y};
-        this.dest1 = {'x': x, 'y': b};
-        this.dest2 = {'x': a, 'y': y};
-        this.dest3 = {'x': a, 'y': b};
+        this.dest = {'x': a, 'y': b};
     }
 }
