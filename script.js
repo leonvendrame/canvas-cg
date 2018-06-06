@@ -1,6 +1,7 @@
 var canvas = document.getElementById("workcanvas");
 var commandLine = document.getElementById("commandLine");
 var context = canvas.getContext("2d");
+var selectionList = document.getElementById("shapes");
 var globalOption = 0;
 var id = 0;
 
@@ -42,7 +43,6 @@ function submitCommandLine() {
         console.log("Erro: Comando não reconhecido.");
         alert("Erro: Comando não reconhecido.");
     }
-    
 }
 
 function cEL(button) {
@@ -211,10 +211,16 @@ function clearCanvas(keep) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     if (keep != true) {
         shapesList = [];
+        selectionList.innerHTML = `<li id="selection-list-title">Selecione</li>`
     }
 }
 
-function select(shapeObject) {
+function select(index) {
+    if (index >= shapesList.length) {
+        console.log("Erro: Forma não presente na lista.");
+        return;
+    }
+    shapeObject = shapesList[index];
     if (shapeObject != undefined) {
         for (var index in shapesList) {
             shapesList[index].selected = false;
@@ -226,7 +232,12 @@ function select(shapeObject) {
     }
 }
 
-function unselect(shapeObject) {
+function unselect(index) {
+    if (index >= shapesList.length) {
+        console.log("Erro: Forma não presente na lista.");
+        return;
+    }
+    shapeObject = shapesList[index];
     if (shapeObject != undefined) {
         shapeObject.selected = false;
         selectedShape = null;

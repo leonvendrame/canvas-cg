@@ -30,3 +30,13 @@
     width: 400px;
     margin: 25px 0;
 }
+
+#list-of-shapes {
+    position: absolute;
+    right: 50px;
+    top: 140px;
+}
+
+#list-of-shapes li:hover {
+    cursor: pointer;
+}
