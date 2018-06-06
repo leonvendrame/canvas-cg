@@ -6,6 +6,7 @@ var id = 0;
 
 var coords = [];
 var shapesList = [];
+var selectedShape = null;
 
 var counts = {line: 2};
 
@@ -49,15 +50,31 @@ function cEL(button) {
     switch(globalOption) {
         case(1):
             // alert("Clique nos pontos de origem e destino da reta dentro da tela delimitada.");
+            document.getElementById("line-btn").classList.add("is-inverted");
+            document.getElementById("rectangle-btn").classList.remove("is-inverted");
+            document.getElementById("circle-btn").classList.remove("is-inverted");
+            document.getElementById("triangle-btn").classList.remove("is-inverted");
             break;
         case(2):
             // alert("Clique nos pontos de origem e destino da diagonal que formará o retângulo dentro da tela delimitada.");
+            document.getElementById("line-btn").classList.remove("is-inverted");
+            document.getElementById("rectangle-btn").classList.add("is-inverted");
+            document.getElementById("circle-btn").classList.remove("is-inverted");
+            document.getElementById("triangle-btn").classList.remove("is-inverted");
             break;
         case(3):
             // alert("Clique no ponto que será o centro do círculo e após isso o ponto que definirá o raio do mesmo na tela delimitada.");
+            document.getElementById("line-btn").classList.remove("is-inverted");
+            document.getElementById("rectangle-btn").classList.remove("is-inverted");
+            document.getElementById("circle-btn").classList.add("is-inverted");
+            document.getElementById("triangle-btn").classList.remove("is-inverted");
             break;
         case(4):
             // alert("Clique nos três pontos que formarão o retângulo dentro da tela delimitada.");
+            document.getElementById("line-btn").classList.remove("is-inverted");
+            document.getElementById("rectangle-btn").classList.remove("is-inverted");
+            document.getElementById("circle-btn").classList.remove("is-inverted");
+            document.getElementById("triangle-btn").classList.add("is-inverted");
             break;
     }
     coords = [];
@@ -162,31 +179,31 @@ function draw(shapeObject) {
     }
     switch(shapeObject.constructor.name) {        
         case "Line":
-            drawLine([shapeObject.origin['x'], shapeObject.origin['y'],
-                        shapeObject.dest['x'], shapeObject.dest['y']],
-                        selected);
+            drawLine(shapeObject);
+            // drawLine([shapeObject.origin['x'], shapeObject.origin['y'],
+            //             shapeObject.dest['x'], shapeObject.dest['y']];
             break;
         case "Triangle":
-            drawTriangle([shapeObject.origin['x'], shapeObject.origin['y'],
-                            shapeObject.dest1['x'], shapeObject.dest1['y'],
-                            shapeObject.dest2['x'], shapeObject.dest2['y']],
-                            selected);
+            drawTriangle(shapeObject);
+            // drawTriangle([shapeObject.origin['x'], shapeObject.origin['y'],
+            //                 shapeObject.dest1['x'], shapeObject.dest1['y'],
+            //                 shapeObject.dest2['x'], shapeObject.dest2['y']]);
             break;
         case "Circle":
-            drawCircle([shapeObject.center['x'], shapeObject.center['y']],
-                        shapeObject.radius, selected);
+            drawCircle(shapeObject);
+            // drawCircle([shapeObject.center['x'], shapeObject.center['y']], shapeObject.radius);
             break;
         case "Rectangle":
-            drawRectangle([shapeObject.origin['x'], shapeObject.origin['y'],
-                            shapeObject.dest3['x'], shapeObject.dest3['y']], selected);
+            drawRectangle(shapeObject);
+            // drawRectangle([shapeObject.origin['x'], shapeObject.origin['y'],
+            //                 shapeObject.dest3['x'], shapeObject.dest3['y']]);
             break;
     }
 }
 
 function reDrawEverything() {
-    for (var i = 0; i < shapesList.length; i++) {
-        var shape = shapesList.shift();
-        draw(shape);
+    for (var index in shapesList) {
+        draw(shapesList[index]);
     }
 }
 
@@ -199,7 +216,11 @@ function clearCanvas(keep) {
 
 function select(shapeObject) {
     if (shapeObject != undefined) {
+        for (var index in shapesList) {
+            shapesList[index].selected = false;
+        }
         shapeObject.selected = true;
+        selectedShape = shapeObject;
         clearCanvas(true);
         reDrawEverything();
     }
@@ -208,6 +229,7 @@ function select(shapeObject) {
 function unselect(shapeObject) {
     if (shapeObject != undefined) {
         shapeObject.selected = false;
+        selectedShape = null;
         clearCanvas(true);
         reDrawEverything();
     }
