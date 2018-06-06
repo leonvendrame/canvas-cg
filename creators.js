@@ -8,7 +8,7 @@ function createCircle(coordinates, radius) {
     shapesList.push(circle);
     drawCircle(circle);
     const index = shapesList.indexOf(circle);
-    selectionList.innerHTML += `<li onclick="select(${index})">Círculo</li>`
+    selectionList.innerHTML += `<li id="li-${index}" class="li-style" onclick="switchSelection(${index})">Círculo</li>`
 }
 
 function createTriangle(coordinates) {
@@ -23,7 +23,7 @@ function createTriangle(coordinates) {
     shapesList.push(triangle);
     drawTriangle(triangle);
     const index = shapesList.indexOf(triangle);
-    selectionList.innerHTML += `<li onclick="select(${index})">Triângulo</li>`
+    selectionList.innerHTML += `<li id="li-${index}" class="li-style" onclick="switchSelection(${index})">Triângulo</li>`
 }
 
 function createLine(coordinates) {
@@ -37,7 +37,7 @@ function createLine(coordinates) {
     shapesList.push(line);
     drawLine(line);
     const index = shapesList.indexOf(line);
-    selectionList.innerHTML += `<li onclick="select(${index})">Linha</li>`
+    selectionList.innerHTML += `<li id="li-${index}" class="li-style" onclick="switchSelection(${index})">Linha</li>`
 }
 
 function createRectangle(coordinates) {
@@ -51,5 +51,5 @@ function createRectangle(coordinates) {
     shapesList.push(rectangle);
     drawRectangle(rectangle);
     const index = shapesList.indexOf(rectangle);
-    selectionList.innerHTML += `<li onclick="select(${index})">Rectangle</li>`
+    selectionList.innerHTML += `<li id="li-${index}" class="li-style" onclick="switchSelection(${index})">Retângulo</li>`
 }

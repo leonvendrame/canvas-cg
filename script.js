@@ -98,64 +98,10 @@ function getPoints(x, y, count, original, func) {
     return count;
 }
 
-function getLinePoints (x, y) {
-    if (countLine > 0) {
-        coords.push(x);
-        coords.push(y);
-        --countLine;
-    }
-    if (countLine == 0) {
-        createLine(coords);
-        coords = [];
-        countLine = 2;
-    }
-}
-
-function getRectanglePoints (x, y) {
-    if (countRectangle > 0) {
-        coords.push(x);
-        coords.push(y);
-        --countRectangle;
-    }
-    if (countRectangle == 0) {
-        createRectangle(coords);
-        coords = [];
-        countRectangle = 2;
-    }
-}
-
-function getTrianglePoints (x, y) {
-    if (countTriangle > 0) {
-        coords.push(x);
-        coords.push(y);
-        --countTriangle;
-    }
-    if (countTriangle == 0) {
-        createTriangle(coords);
-        coords = [];
-        countTriangle = 3;
-    }
-}
-
-function getCirclePoints (x, y) {
-    if (countCircle > 0) {
-        coords.push(x);
-        coords.push(y);
-        --countCircle;
-    }
-    if (countCircle == 0) {
-        var radius = Math.abs(Math.hypot(coords[2]-coords[0], coords[3]-coords[1]));
-        createCircle(coords, radius);
-        coords = [];
-        countCircle = 2;
-    }
-}
-
 function storeGuess(event) {
     var x = event.offsetX;
     var y = event.offsetY;
-    // console.log("X coords: " + x + ", Y coords: " + y);
-
+    
     if (globalOption == 0) {
         alert("Erro: Nenhuma função selecionada.");
     } else if (globalOption == 1) {
@@ -214,36 +160,3 @@ function clearCanvas(keep) {
         selectionList.innerHTML = `<li id="selection-list-title">Selecione</li>`
     }
 }
-
-function select(index) {
-    if (index >= shapesList.length) {
-        console.log("Erro: Forma não presente na lista.");
-        return;
-    }
-    shapeObject = shapesList[index];
-    if (shapeObject != undefined) {
-        for (var index in shapesList) {
-            shapesList[index].selected = false;
-        }
-        shapeObject.selected = true;
-        selectedShape = shapeObject;
-        clearCanvas(true);
-        reDrawEverything();
-    }
-}
-
-function unselect(index) {
-    if (index >= shapesList.length) {
-        console.log("Erro: Forma não presente na lista.");
-        return;
-    }
-    shapeObject = shapesList[index];
-    if (shapeObject != undefined) {
-        shapeObject.selected = false;
-        selectedShape = null;
-        clearCanvas(true);
-        reDrawEverything();
-    }
-}
-
-
