@@ -54,3 +54,22 @@ function unselect(index) {
         document.querySelector("#li-" + index).style.removeProperty("color");
     }
 }
+
+function remove() {
+    var index;
+    var shapeObject = selectedShape;
+    var tradeAuxiliar;
+
+    if (!selectedShape) {
+        alert("Erro: Selecione uma forma antes de deletar.");
+    }
+
+    index = shapesList.indexOf(shapeObject);
+
+    shapesList.splice(index, 1);
+
+    selectedShape = null;
+
+    clearCanvas(true);
+    reDrawEverything();
+}

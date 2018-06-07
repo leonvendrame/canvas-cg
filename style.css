@@ -37,6 +37,6 @@
     top: 140px;
 }
 
-#list-of-shapes li:hover {
+.li-style:hover {
     cursor: pointer;
 }

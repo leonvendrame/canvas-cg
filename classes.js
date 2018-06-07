@@ -40,3 +40,14 @@ class Rectangle extends Shape {
         this.dest = {'x': a, 'y': b};
     }
 }
+
+class Matrix {
+    constructor(n, m) {
+        this.n = n;
+        this.m = m;
+        this.matrix = [];
+        for (var i = 0; i < n; i++) {
+            this.matrix[i] = [];
+        }
+    }
+}

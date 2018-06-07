@@ -160,3 +160,9 @@ function clearCanvas(keep) {
         selectionList.innerHTML = `<li id="selection-list-title">Selecione</li>`
     }
 }
+
+createLine([23, 34, 333, 555]);
+createCircle([23, 120], 45);
+createRectangle([23, 54, 65, 87]);
+createTriangle([23, 43, 65, 76, 222, 111]);
+select(0);
