@@ -2,18 +2,6 @@ function resetStrokeColor() {
     context.strokeStyle = "black";
 }
 
-// function flip(abssys) {
-//     if (abssys.toString().toLowerCase() == 'x') {
-//         context.translate(canvas.width / 2, canvas.height / 2);
-//         context.scale(-1, 1);
-//         console.log("ALOJA");
-//         // clearCanvas();
-//         reDrawEverything([-1, 1]);
-//     } else {
-//         context.scale(1, -1);
-//     }
-// }
-
 function switchSelection(index) {
     if (shapesList[index].selected) {
         unselect(index)
@@ -60,16 +48,42 @@ function remove() {
     var shapeObject = selectedShape;
     var tradeAuxiliar;
 
-    if (!selectedShape) {
+    if (!shapeObject) {
         alert("Erro: Selecione uma forma antes de deletar.");
+        return;
     }
 
     index = shapesList.indexOf(shapeObject);
 
+    unselect(index);
     shapesList.splice(index, 1);
-
-    selectedShape = null;
+    updateSelectList();
 
     clearCanvas(true);
     reDrawEverything();
+}
+
+function addSelectList(shapeObject) {
+    const names = {"Circle": "Círculo", "Rectangle": "Retângulo", "Triangle": "Triângulo", "Line": "Linha"};
+    const index = shapesList.indexOf(shapeObject);
+
+    selectionList.innerHTML += `<li id="li-${index}" class="li-style" onclick="switchSelection(${index})">\
+        ${index}. ${names[shapeObject.constructor.name]}</li>`
+}
+
+function updateSelectList() {
+    for (var shape of shapesList) {
+        removeSelectList(shape);
+    }
+    for (var shapeObject of shapesList) {
+        addSelectList(shapeObject);
+    }
+    const element = document.getElementById(`li-${shapesList.length}`);
+    element.parentNode.removeChild(element);
+}
+
+function removeSelectList(shapeObject) {
+    const index = shapesList.indexOf(shapeObject);
+    const element = document.getElementById(`li-${index}`);
+    element.parentNode.removeChild(element);
 }

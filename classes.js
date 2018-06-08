@@ -11,24 +11,24 @@ class Shape {
 class Line extends Shape {
     constructor(x, y, a, b) {
         super();
-        this.origin = { 'x': x, 'y': y};
-        this.dest = {'x': a, 'y': b};
+        this.points = {"origin": {"x": x, "y": y}};
+        this.points["dest"] = {"x": a, "y": b};
     }
 }
 
 class Triangle extends Shape {
     constructor(x, y, a, b, p, q) {
         super();
-        this.origin = {'x': x, 'y': y};
-        this.dest1 = {'x': a, 'y': b};
-        this.dest2 = {'x': p, 'y': q};
+        this.points = {"origin": {"x": x, "y": y}};
+        this.points["dest1"] = {"x": a, "y": b};
+        this.points["dest2"] = {"x": p, "y": q};
     }
 }
 
 class Circle extends Shape {
     constructor(x, y, r) {
         super();
-        this.center = {'x': x, 'y': y};
+        this.points = {"center": {"x": x, "y": y}};
         this.radius = r;
     }
 }
@@ -36,18 +36,9 @@ class Circle extends Shape {
 class Rectangle extends Shape {
     constructor(x, y, a, b) {
         super();
-        this.origin = {'x': x, 'y': y};
-        this.dest = {'x': a, 'y': b};
-    }
-}
-
-class Matrix {
-    constructor(n, m) {
-        this.n = n;
-        this.m = m;
-        this.matrix = [];
-        for (var i = 0; i < n; i++) {
-            this.matrix[i] = [];
-        }
+        this.points = {"origin": {"x": x, "y": y}};
+        this.points["dest1"] = {"x": x, "y": b};
+        this.points["dest2"] = {"x": a, "y": b};
+        this.points["dest3"] = {"x": a, "y": y};
     }
 }

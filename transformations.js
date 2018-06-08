@@ -72,9 +72,13 @@ function scale(x, y) {
     console.log(shapeObjectMatrix);
     console.log(newPointsVector);
 
-    // return newPointsVector;
+    var recreate = `create${selectedShape.constructor.name}(newPointsVector);`
+
     remove();
-    createLine(newPointsVector);
+    // createLine(newPointsVector);
+    console.log(recreate);
+    eval(recreate);
+    select(shapesList.length - 1);
     clearCanvas(true);
     reDrawEverything();
 }

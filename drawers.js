@@ -1,6 +1,6 @@
 function drawCircle(circle) {
     context.beginPath();
-    context.arc(circle.center['x'], circle.center['y'], circle.radius, 0, 2 * Math.PI);
+    context.arc(circle.points["center"]["x"], circle.points["center"]["y"], circle.radius, 0, 2 * Math.PI);
     if (circle.selected) {
         context.strokeStyle = "red"
     }
@@ -11,12 +11,12 @@ function drawCircle(circle) {
 
 function drawTriangle(triangle) {
     context.beginPath();
-    context.moveTo(triangle.origin['x'], triangle.origin['y']);
-    context.lineTo(triangle.dest1['x'], triangle.dest1['y']);
-    context.moveTo(triangle.dest1['x'], triangle.dest1['y']);
-    context.lineTo(triangle.dest2['x'], triangle.dest2['y']);
-    context.moveTo(triangle.dest2['x'], triangle.dest2['y']);
-    context.lineTo(triangle.origin['x'], triangle.origin['y']);
+    context.moveTo(triangle.points["origin"]["x"], triangle.points["origin"]["y"]);
+    context.lineTo(triangle.points["dest1"]["x"], triangle.points["dest1"]["y"]);
+    context.moveTo(triangle.points["dest1"]["x"], triangle.points["dest1"]["y"]);
+    context.lineTo(triangle.points["dest2"]["x"], triangle.points["dest2"]["y"]);
+    context.moveTo(triangle.points["dest2"]["x"], triangle.points["dest2"]["y"]);
+    context.lineTo(triangle.points["origin"]["x"], triangle.points["origin"]["y"]);
     if (triangle.selected) {
         context.strokeStyle = "red"
     }
@@ -27,8 +27,8 @@ function drawTriangle(triangle) {
 
 function drawLine(line) {
     context.beginPath();
-    context.moveTo(line.origin['x'], line.origin['y']);
-    context.lineTo(line.dest['x'], line.dest['y']);
+    context.moveTo(line.points["origin"]["x"], line.points["origin"]["y"]);
+    context.lineTo(line.points["dest"]["x"], line.points["dest"]["y"]);
     if (line.selected) {
         context.strokeStyle = "red"
     }
@@ -39,14 +39,14 @@ function drawLine(line) {
 
 function drawRectangle(rectangle) {
     context.beginPath();
-    context.moveTo(rectangle.origin['x'], rectangle.origin['y']);
-    context.lineTo(rectangle.dest['x'], rectangle.origin['y']);
-    context.moveTo(rectangle.dest['x'], rectangle.origin['y']);
-    context.lineTo(rectangle.dest['x'], rectangle.dest['y']);
-    context.moveTo(rectangle.dest['x'], rectangle.dest['y']);
-    context.lineTo(rectangle.origin['x'], rectangle.dest['y']);
-    context.moveTo(rectangle.origin['x'], rectangle.dest['y']);
-    context.lineTo(rectangle.origin['x'], rectangle.origin['y']);
+    context.moveTo(rectangle.points["origin"]["x"], rectangle.points["origin"]["y"]);
+    context.lineTo(rectangle.points["dest1"]["x"], rectangle.points["dest1"]["y"]);
+    context.moveTo(rectangle.points["dest1"]["x"], rectangle.points["dest1"]["y"]);
+    context.lineTo(rectangle.points["dest2"]["x"], rectangle.points["dest2"]["y"]);
+    context.moveTo(rectangle.points["dest2"]["x"], rectangle.points["dest2"]["y"]);
+    context.lineTo(rectangle.points["dest3"]["x"], rectangle.points["dest3"]["y"]);
+    context.moveTo(rectangle.points["dest3"]["x"], rectangle.points["dest3"]["y"]);
+    context.lineTo(rectangle.points["origin"]["x"], rectangle.points["origin"]["y"]);
     if (rectangle.selected) {
         context.strokeStyle = "red"
     }
