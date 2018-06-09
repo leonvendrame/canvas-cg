@@ -2,24 +2,19 @@ const size2D = 3;
 
 function toHomogeneousMatrix(shapeObject) {
     var pointsList = [];
-    const properties = Object.getOwnPropertyNames(shapeObject);
-    const propertiesList = ["origin", "dest", "dest1", "dest2", "center", "radius"];
     var countPoints = 0;
+    const keys = Object.keys(shapeObject.points);
+    // console.log(keys);
     var matrix = [];
 
-    for (var property of propertiesList) {
-        if (properties.includes(property)) {
-            // console.log(property);
-            // console.log(shapeObject[property]);
-            if (property == "radius") {
-                pointsList.push(shapeObject[property]);    
-            } else {
-                pointsList.push(shapeObject[property]['x']);
-                pointsList.push(shapeObject[property]['y']);
-                pointsList.push(1);
-                countPoints++;
-            }
-        }        
+    for (var key of keys) {
+        pointsList.push(shapeObject.points[key]['x']);
+        pointsList.push(shapeObject.points[key]['y']);
+        pointsList.push(1);
+        countPoints++;
+        // if (shapeObject.constructor.name == "Circle") {
+        //     pointsList.push(shapeObject.radius);
+        // }
     }
 
     for (var i = 0; i < size2D; i++) {
@@ -36,43 +31,87 @@ function toHomogeneousMatrix(shapeObject) {
     return matrix;
 }
 
-function scale(x, y) {
-    var scaleMatrix = [];
-    var newPointsVector = [];
-    var newPointsMatrix;
-
-    for (var i = 0; i < size2D; i++) {
-        scaleMatrix[i] = [];
-    }
-
-    for (var i = 0; i < size2D; i++) {
-        for (var j = 0; j < size2D; j++) {
-            scaleMatrix[i][j] = 0;
-        }
-    }
-
-    scaleMatrix[0][0] = x;
-    scaleMatrix[1][1] = y;
-    scaleMatrix[2][2] = 1;
-
+function translate(x, y) {
     if (!selectedShape) {
         alert("Erro: Selecione uma forma antes de aplicar a escala.");
     } else {
         var shapeObjectMatrix = toHomogeneousMatrix(selectedShape);
     }
+    if (arguments.length == 1) {
+        y = x;
+    }
 
-    newPointsMatrix = multiply(scaleMatrix, shapeObjectMatrix);
+    var transMatrix = translationMatrix(x, y);
+    var newPointsVector = [];
+    var newPointsMatrix;
+    var recreate;
+
+    newPointsMatrix = multiply(transMatrix, shapeObjectMatrix);
 
     for (var j = 0; j < shapeObjectMatrix[0].length; j++) {
         for (var i = 0; i < size2D - 1; i++) {
             newPointsVector.push(newPointsMatrix[i][j]);
         }
     }
-    
-    console.log(shapeObjectMatrix);
-    console.log(newPointsVector);
 
-    var recreate = `create${selectedShape.constructor.name}(newPointsVector);`
+    if (selectedShape.constructor.name == "Rectangle") {
+        newPointsVector.splice(2, 2);
+        newPointsVector.splice(4, 2);
+        recreate = `create${selectedShape.constructor.name}(newPointsVector);`
+    } else if (selectedShape.constructor.name == "Circle") {
+        recreate = `create${selectedShape.constructor.name}(newPointsVector, ${selectedShape.radius});`
+    } else {
+        recreate = `create${selectedShape.constructor.name}(newPointsVector);`
+    }
+
+    remove();
+    eval(recreate);
+    select(shapesList.length - 1);
+    clearCanvas(true);
+    reDrawEverything();
+}
+
+function scale(x, y) {
+    if (!selectedShape) {
+        alert("Erro: Selecione uma forma antes de aplicar a escala.");
+    } else {
+        var shapeObjectMatrix = toHomogeneousMatrix(selectedShape);
+    }
+    if (arguments.length == 1) {
+        if (selectedShape.constructor.name == "Circle") {
+            return scaleCircles(x);
+        } else {
+            y = x;
+        }
+    }
+
+    var scaleM = scaleMatrix(x, y);;
+    var newPointsVector = [];
+    var newPointsMatrix;
+    var translateToOrigin = translationMatrix(-selectedShape.points["origin"]["x"], -selectedShape.points["origin"]["y"]);
+    var translateBack = translationMatrix(selectedShape.points["origin"]["x"], selectedShape.points["origin"]["y"]);
+    
+    newPointsMatrix = multiply(translateBack, scaleM);
+    newPointsMatrix = multiply(newPointsMatrix, translateToOrigin);
+    newPointsMatrix = multiply(newPointsMatrix, shapeObjectMatrix);
+
+    for (var j = 0; j < shapeObjectMatrix[0].length; j++) {
+        for (var i = 0; i < size2D - 1; i++) {
+            newPointsVector.push(newPointsMatrix[i][j]);
+        }
+    }
+
+    var recreate;
+
+    if (selectedShape.constructor.name == "Rectangle") {
+        newPointsVector.splice(2, 2);
+        newPointsVector.splice(4, 2);
+        recreate = `create${selectedShape.constructor.name}(newPointsVector);`
+    } else if (selectedShape.constructor.name == "Circle") {
+        recreate = `create${selectedShape.constructor.name}(newPointsVector, ${selectedShape.radius});`
+    } else {
+        recreate = `create${selectedShape.constructor.name}(newPointsVector);`
+    }
 
     remove();
     // createLine(newPointsVector);
@@ -81,6 +120,10 @@ function scale(x, y) {
     select(shapesList.length - 1);
     clearCanvas(true);
     reDrawEverything();
+}
+
+function scaleCircles(radius) {
+    console.log("É um circulo, raio " + radius);
 }
 
 function multiply(matrixA, matrixB) {

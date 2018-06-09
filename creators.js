@@ -38,7 +38,7 @@ function createLine(coordinates) {
 }
 
 function createRectangle(coordinates) {
-    if (coordinates.length != 4) {
+    if (coordinates.length != 4 && coordinates.length != 8) {
         console.log("Erro: Número incorreto de pontos.");
         return;
     }

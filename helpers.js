@@ -87,3 +87,7 @@ function removeSelectList(shapeObject) {
     const element = document.getElementById(`li-${index}`);
     element.parentNode.removeChild(element);
 }
+
+function updatePoints(coordinates) {
+    
+}
