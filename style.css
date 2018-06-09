@@ -3,6 +3,15 @@
     font-size: 20pt;
 }
 
+body { 
+    background-color: #3a3a3a;
+    color: white;
+}
+
+.button:hover {
+    transition: 0.5s;
+}
+
 .body-center {
     text-align: center;
 }
@@ -18,10 +27,11 @@
 }
 
 #workcanvas {
-    border: 5px;
-    border-color: black;
-    border-style: solid;
+    /* border: 5px;
+    border-color: black; */
+    /* border-style: solid; */
     /* border-radius: 10px; */
+    background-color: #d8d8d8;
     cursor: pointer;
     margin-top: 25px;
 }
@@ -29,6 +39,7 @@
 #commandLine {
     width: 400px;
     margin: 25px 0;
+    margin-left: 15px;
 }
 
 #list-of-shapes {

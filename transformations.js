@@ -41,12 +41,12 @@ function translate(x, y) {
         y = x;
     }
 
-    var transMatrix = translationMatrix(x, y);
+    var translationM = translationMatrix(x, y);
     var newPointsVector = [];
     var newPointsMatrix;
     var recreate;
 
-    newPointsMatrix = multiply(transMatrix, shapeObjectMatrix);
+    newPointsMatrix = multiply(translationM, shapeObjectMatrix);
 
     for (var j = 0; j < shapeObjectMatrix[0].length; j++) {
         for (var i = 0; i < size2D - 1; i++) {
@@ -124,6 +124,50 @@ function scale(x, y) {
 
 function scaleCircles(radius) {
     console.log("É um circulo, raio " + radius);
+}
+
+function rotate(angle) {
+    if (!selectedShape) {
+        alert("Erro: Selecione uma forma antes de aplicar a escala.");
+    } else {
+        var shapeObjectMatrix = toHomogeneousMatrix(selectedShape);
+    }
+
+    var rotateM = rotationMatrix(angle);
+    var newPointsVector = [];
+    var newPointsMatrix;
+    var translateToOrigin = translationMatrix(-selectedShape.points["origin"]["x"], -selectedShape.points["origin"]["y"]);
+    var translateBack = translationMatrix(selectedShape.points["origin"]["x"], selectedShape.points["origin"]["y"]);
+    
+    newPointsMatrix = multiply(translateBack, rotateM);
+    newPointsMatrix = multiply(newPointsMatrix, translateToOrigin);
+    newPointsMatrix = multiply(newPointsMatrix, shapeObjectMatrix);
+
+    for (var j = 0; j < shapeObjectMatrix[0].length; j++) {
+        for (var i = 0; i < size2D - 1; i++) {
+            newPointsVector.push(newPointsMatrix[i][j]);
+        }
+    }
+
+    var recreate;
+
+    if (selectedShape.constructor.name == "Rectangle") {
+        newPointsVector.splice(2, 2);
+        newPointsVector.splice(4, 2);
+        recreate = `create${selectedShape.constructor.name}(newPointsVector);`
+    } else if (selectedShape.constructor.name == "Circle") {
+        recreate = `create${selectedShape.constructor.name}(newPointsVector, ${selectedShape.radius});`
+    } else {
+        recreate = `create${selectedShape.constructor.name}(newPointsVector);`
+    }
+
+    remove();
+    // createLine(newPointsVector);
+    console.log(recreate);
+    eval(recreate);
+    select(shapesList.length - 1);
+    clearCanvas(true);
+    reDrawEverything();
 }
 
 function multiply(matrixA, matrixB) {

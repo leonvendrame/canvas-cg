@@ -32,20 +32,32 @@ commandLine.addEventListener("keyup", function(event) {
 document.body.addEventListener("keyup", function(event) {
     event.preventDefault();
     if (event.keyCode === 76) {
-        cEL(1);
+        changeFunction(1);
     } 
 });
 
 function submitCommandLine() {
+    const commandDict = {
+        "line": "createLine(commands);",
+        "select": "select(commands[0]);",
+        "unselect": "unselect(commands[0]);",
+        "scale": "scale(commands[0], commands[1]);",
+        "rotate": "rotate(commands[0]);",
+        "translate": "translate(commands[0], commands[1]);"
+    };
     try {
-        eval(commandLine.value);
+        var commands = commandLine.value.split(" ");
+        var shape = commands.shift();
+        const createCommandLine = commandDict[shape];
+        console.log(createCommandLine);
+        eval(createCommandLine);
     } catch(err) {
         console.log("Erro: Comando não reconhecido.");
         alert("Erro: Comando não reconhecido.");
     }
 }
 
-function cEL(button) {
+function changeFunction(button) {
     globalOption = button;
     switch(globalOption) {
         case(1):
@@ -105,18 +117,21 @@ function storeGuess(event) {
     if (globalOption == 0) {
         alert("Erro: Nenhuma função selecionada.");
     } else if (globalOption == 1) {
-        // getLinePoints(x, y);
         countLine = getPoints(x, y, countLine, 2, createLine);
     } else if (globalOption == 2) {
-        // getRectanglePoints(x, y);
         countRectangle = getPoints(x, y, countRectangle, 2, createRectangle);
     } else if (globalOption == 3) {
-        // getCirclePoints(x, y);
         countCircle = getPoints(x, y, countCircle, 2, createCircle);
     } else if (globalOption == 4) {
-        // getTrianglePoints(x, y);
         countTriangle = getPoints(x, y, countTriangle, 3, createTriangle);
     }
+}
+
+function getMousePos(event) {
+    var x = event.offsetX;
+    var y = event.offsetY;
+
+    document.getElementById("mouse-position").innerHTML = `Posição X: ${x} Y: ${y}`;
 }
 
 function draw(shapeObject) {

@@ -89,5 +89,13 @@ function removeSelectList(shapeObject) {
 }
 
 function updatePoints(coordinates) {
-    
+
+}
+
+function getClosestPoint() {
+
+}
+
+function capitalizeFirstLetter(string) {
+    return string.replace(/^./, string[0].toUpperCase());
 }
