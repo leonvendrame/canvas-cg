@@ -131,7 +131,9 @@ function callScale(secondClick, coordinates) {
         return;
     }
     if (selectedShape.constructor.name == "Circle") {
-        prompt("Digite o valor que deseja escalar o raio.", "Ex.: 2");    
+        let newScale = prompt("Digite o valor que deseja escalar o raio.", "Ex.: 2");
+        scale(newScale);
+        document.getElementById("scale-btn").classList.remove("is-inverted");
     } else {
         if (!secondClick) {
             alert("Clique em um ponto próximo ao vértice o qual deseja aplicar a transformação.");
@@ -140,7 +142,6 @@ function callScale(secondClick, coordinates) {
             // console.log(coordinates);
             let scaleVector = prompt("Digite o valor que deseja escalar em X e em Y separados por espaço.", "Ex.: 2 0.5");
             scaleVector = scaleVector.replace(/[a-z]/gi, "").trim();
-            console.log(scaleVector);
             scaleVector = scaleVector.split(" ");
 
             for (var key of Object.keys(selectedShape.points)) {
@@ -153,14 +154,69 @@ function callScale(secondClick, coordinates) {
                 }
             }
 
-            console.log(selectedPoint);
-            console.log(scaleVector);
-
             scale(scaleVector[0], scaleVector[1], selectedPoint["x"], selectedPoint["y"]);
             document.getElementById("scale-btn").classList.remove("is-inverted");
             globalOption = 0;
             return false;
         }
     }
-    
 }
+
+function callRotation(secondClick, coordinates) {
+    document.getElementById("rotation-btn").classList.add("is-inverted");
+    var selectedPoint = {"x": -1, "y": -1};
+    var minDistance = 999999;
+    if (!selectedShape) {
+        alert("Erro: Selecione uma forma antes de aplicar a transformação");
+        document.getElementById("rotation-btn").classList.remove("is-inverted");
+        return;
+    }
+    if (selectedShape.constructor.name == "Circle") {
+        // let newScale = prompt("Digite o valor que deseja escalar o raio.", "Ex.: 2");
+        // scale(newScale);
+        document.getElementById("rotation-btn").classList.remove("is-inverted");
+    } else {
+        if (!secondClick) {
+            alert("Clique em um ponto próximo ao vértice o qual deseja aplicar a transformação.");
+            return true;
+        } else {
+            // console.log(coordinates);
+            let rotationAngle = prompt("Digite o valor do ângulo em graus.", "Ex.: 90");
+            rotationAngle = rotationAngle.replace(/[a-z]/gi, "").trim();
+            rotationAngle = rotationAngle.split(" ");
+
+            for (var key of Object.keys(selectedShape.points)) {
+                const distance = Math.abs(Math.hypot(coordinates[0]-selectedShape.points[key]["x"],
+                                            coordinates[1]-selectedShape.points[key]["y"]));
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    selectedPoint["x"] = selectedShape.points[key]["x"];
+                    selectedPoint["y"] = selectedShape.points[key]["y"];
+                }
+            }
+
+            rotate(rotationAngle, selectedPoint["x"], selectedPoint["y"]);
+            document.getElementById("rotation-btn").classList.remove("is-inverted");
+            globalOption = 0;
+            return false;
+        }
+    }
+}
+
+function callTranslation() {
+    if (!selectedShape) {
+        alert("Erro: Selecione uma forma antes de aplicar a transformação");
+        document.getElementById("translation-btn").classList.remove("is-inverted");
+        return;
+    } else {
+        let translationVector = prompt("Digite o valor que deseja transladar em X e Y separados\
+                                        por espaço.", "Ex.: 90 20");
+        translationVector = translationVector.replace(/[a-z]/gi, "").trim();
+        translationVector = translationVector.split(" ");
+
+        translate(translationVector[0], translationVector[1]);
+        document.getElementById("translation-btn").classList.remove("is-inverted");
+        globalOption = 0;
+    }
+}
+

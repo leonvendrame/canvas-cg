@@ -48,7 +48,7 @@ function submitCommandLine() {
         "unselect": "unselect(commands[0]);",
         "scale": "scale(commands[0], commands[1], commands[2], commands[3]);",
         "scaleOrigin": "scale(commands[0], commands[1]);",
-        "rotate": "rotate(commands[0]);",
+        "rotate": "rotate(commands[0], commands[1], commands[2]);",
         "translate": "translate(commands[0], commands[1]);"
     };
 
@@ -69,32 +69,47 @@ function changeFunction(button) {
     globalOption = button;
     switch(globalOption) {
         case(1):
-            // alert("Clique nos pontos de origem e destino da reta dentro da tela delimitada.");
+            alert("Clique nos pontos de origem e destino da reta dentro da tela delimitada.");
             document.getElementById("line-btn").classList.add("is-inverted");
             document.getElementById("rectangle-btn").classList.remove("is-inverted");
             document.getElementById("circle-btn").classList.remove("is-inverted");
             document.getElementById("triangle-btn").classList.remove("is-inverted");
             break;
         case(2):
-            // alert("Clique nos pontos de origem e destino da diagonal que formará o retângulo dentro da tela delimitada.");
+            alert("Clique nos pontos de origem e destino da diagonal que formará o retângulo dentro da tela delimitada.");
             document.getElementById("line-btn").classList.remove("is-inverted");
             document.getElementById("rectangle-btn").classList.add("is-inverted");
             document.getElementById("circle-btn").classList.remove("is-inverted");
             document.getElementById("triangle-btn").classList.remove("is-inverted");
             break;
         case(3):
-            // alert("Clique no ponto que será o centro do círculo e após isso o ponto que definirá o raio do mesmo na tela delimitada.");
+            alert("Clique no ponto que será o centro do círculo e após isso o ponto que definirá o raio do mesmo na tela delimitada.");
             document.getElementById("line-btn").classList.remove("is-inverted");
             document.getElementById("rectangle-btn").classList.remove("is-inverted");
             document.getElementById("circle-btn").classList.add("is-inverted");
             document.getElementById("triangle-btn").classList.remove("is-inverted");
             break;
         case(4):
-            // alert("Clique nos três pontos que formarão o retângulo dentro da tela delimitada.");
+            alert("Clique nos três pontos que formarão o retângulo dentro da tela delimitada.");
             document.getElementById("line-btn").classList.remove("is-inverted");
             document.getElementById("rectangle-btn").classList.remove("is-inverted");
             document.getElementById("circle-btn").classList.remove("is-inverted");
             document.getElementById("triangle-btn").classList.add("is-inverted");
+            break;
+        case(5):
+            secondClick = callTranslation();
+            document.getElementById("line-btn").classList.remove("is-inverted");
+            document.getElementById("rectangle-btn").classList.remove("is-inverted");
+            document.getElementById("circle-btn").classList.remove("is-inverted");
+            document.getElementById("triangle-btn").classList.remove("is-inverted");
+            break;    
+        case(6):
+            secondClick = callRotation(secondClick);
+            document.getElementById("line-btn").classList.remove("is-inverted");
+            document.getElementById("rectangle-btn").classList.remove("is-inverted");
+            document.getElementById("circle-btn").classList.remove("is-inverted");
+            document.getElementById("triangle-btn").classList.remove("is-inverted");
+            document.getElementById("scale-btn").classList.remove("is-inverted");
             break;
         case(7):
             secondClick = callScale(secondClick);
@@ -102,6 +117,7 @@ function changeFunction(button) {
             document.getElementById("rectangle-btn").classList.remove("is-inverted");
             document.getElementById("circle-btn").classList.remove("is-inverted");
             document.getElementById("triangle-btn").classList.remove("is-inverted");
+            break;
     }
     coords = [];
 }
@@ -128,8 +144,16 @@ function storeGuess(event) {
     var x = event.offsetX;
     var y = event.offsetY;
     
-    if (secondClick) {
-        secondClick = callScale(secondClick, [x, y]);
+    if (globalOption == 5 || globalOption == 6 || globalOption == 7) {
+        if (secondClick) {
+            if (globalOption == 5) {
+                secondClick = callScale(secondClick, [x, y]);
+            } else if (globalOption == 6) {
+                secondClick = callRotation(secondClick, [x, y]);
+            } else if (globalOption == 7) {
+                secondClick = callScale(secondClick, [x, y]);
+            }
+        }
     } else if (globalOption == 0) {
         alert("Erro: Nenhuma função selecionada.");
     } else if (globalOption == 1) {

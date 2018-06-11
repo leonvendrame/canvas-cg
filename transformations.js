@@ -28,7 +28,7 @@ function translate(x, y) {
     reDrawEverything();
 }
 
-function scale(x, y, a = selectedShape.points["origin"]["x"], b = selectedShape.points["origin"]["y"]) {
+function scale(x, y, a, b) {
     if (!selectedShape) {
         alert("Erro: Selecione uma forma antes de aplicar a escala.");
         return;
@@ -37,12 +37,17 @@ function scale(x, y, a = selectedShape.points["origin"]["x"], b = selectedShape.
     }
     if (arguments.length == 1) {
         if (selectedShape.constructor.name == "Circle") {
-            return scaleCircles(x);
+            scaleCircle(x);
+            return;
         } else {
             y = x;
         }
     }
 
+    if (!a || !b) {
+        a = selectedShape.points["origin"]["x"];
+        b = selectedShape.points["origin"]["y"];
+    }
     var scaleM = scaleMatrix(x, y);;
     var newPointsVector = [];
     var newPointsMatrix;
@@ -64,22 +69,29 @@ function scale(x, y, a = selectedShape.points["origin"]["x"], b = selectedShape.
     reDrawEverything();
 }
 
-function scaleCircles(scale) {
+function scaleCircle(scale) {
     selectedShape.radius = selectedShape.radius * scale;
+    clearCanvas(true);
+    reDrawEverything();
 }
 
-function rotate(angle) {
+function rotate(angle, a, b) {
     if (!selectedShape) {
         alert("Erro: Selecione uma forma antes de aplicar a escala.");
     } else {
         var shapeObjectMatrix = toHomogeneousMatrix(selectedShape);
     }
 
+    if (!a || !b) {
+        a = selectedShape.points["origin"]["x"];
+        b = selectedShape.points["origin"]["y"];
+    }
+
     var rotateM = rotationMatrix(angle);
     var newPointsVector = [];
     var newPointsMatrix;
-    var translateToOrigin = translationMatrix(-selectedShape.points["origin"]["x"], -selectedShape.points["origin"]["y"]);
-    var translateBack = translationMatrix(selectedShape.points["origin"]["x"], selectedShape.points["origin"]["y"]);
+    var translateToOrigin = translationMatrix(-a, -b);
+    var translateBack = translationMatrix(a, b);
     
     newPointsMatrix = multiply(translateBack, rotateM);
     newPointsMatrix = multiply(newPointsMatrix, translateToOrigin);
