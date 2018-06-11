@@ -88,8 +88,29 @@ function removeSelectList(shapeObject) {
     element.parentNode.removeChild(element);
 }
 
-function updatePoints(coordinates) {
-
+function updatePoints(coordinates, shapeObject, radius = null) {
+    switch (shapeObject.constructor.name) {
+        case "Circle":
+            shapeObject.points["center"]["x"] = coordinates.shift();
+            shapeObject.points["cebter"]["y"] = coordinates.shift();
+            shapeObject.radius = radius;
+            break;
+        case "Rectangle":
+            shapeObject.points = {"origin": {"x": coordinates.shift(), "y": coordinates.shift()}};
+            shapeObject.points["dest1"] = {"x": coordinates.shift(), "y": coordinates.shift()};
+            shapeObject.points["dest2"] = {"x": coordinates.shift(), "y": coordinates.shift()};
+            shapeObject.points["dest3"] = {"x": coordinates.shift(), "y": coordinates.shift()};
+            break;
+        case "Line":
+            shapeObject.points = {"origin": {"x": coordinates.shift(), "y": coordinates.shift()}};
+            shapeObject.points["dest"] = {"x": coordinates.shift(), "y": coordinates.shift()};
+            break;
+        case "Triangle":
+            shapeObject.points = {"origin": {"x": coordinates.shift(), "y": coordinates.shift()}};
+            shapeObject.points["dest1"] = {"x": coordinates.shift(), "y": coordinates.shift()};
+            shapeObject.points["dest2"] = {"x": coordinates.shift(), "y": coordinates.shift()};
+            break;
+    }
 }
 
 function getClosestPoint() {
@@ -98,4 +119,32 @@ function getClosestPoint() {
 
 function capitalizeFirstLetter(string) {
     return string.replace(/^./, string[0].toUpperCase());
+}
+
+function callScale(secondClick, coordinates) {
+    if (!selectedShape) {
+        alert("Erro: Selecione uma forma antes de aplicar a transformação");
+        return;
+    }
+    console.log(secondClick);
+    if (selectedShape.constructor.name == "Circle") {
+        prompt("Digite o valor que deseja escalar o raio.", "Ex.: 2");    
+    } else {
+        if (!secondClick) {
+            alert("Clique em um ponto próximo ao vértice o qual deseja aplicar a transformação.");
+            return true;
+        } else {
+            // console.log(coordinates);
+            let scaleVector = prompt("Digite o valor que deseja escalar em X e em Y separados por espaço.", "Ex.: 2 0.5");
+            scaleVector = scaleVector.replace(/[a-z]/gi, "").trim();
+            scaleVector = scaleVector.split(" ");
+
+            for (var key of Object.keys(selectedShape.points));
+                console.log(key);
+            console.log(scaleVector);
+
+            scale(scaleVector[0], scaleVector[1]);
+            return false;
+        }
+    }
 }

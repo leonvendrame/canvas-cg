@@ -16,11 +16,11 @@ body {
     text-align: center;
 }
 
-.forms {
+.shapes {
     margin-top: 25px;
 }
 
-.forms li {
+.shapes li {
     display: inline;
     margin-left: 5px;
     margin-right: 5px;
@@ -50,4 +50,15 @@ body {
 
 .li-style:hover {
     cursor: pointer;
+}
+
+.transforms {
+    position: absolute;
+    left: 200px;
+    top: 140px;
+}
+
+.transforms li {
+    margin-top: 8px;
+    margin-bottom: 8px;
 }

@@ -1,36 +1,5 @@
 const size2D = 3;
 
-function toHomogeneousMatrix(shapeObject) {
-    var pointsList = [];
-    var countPoints = 0;
-    const keys = Object.keys(shapeObject.points);
-    // console.log(keys);
-    var matrix = [];
-
-    for (var key of keys) {
-        pointsList.push(shapeObject.points[key]['x']);
-        pointsList.push(shapeObject.points[key]['y']);
-        pointsList.push(1);
-        countPoints++;
-        // if (shapeObject.constructor.name == "Circle") {
-        //     pointsList.push(shapeObject.radius);
-        // }
-    }
-
-    for (var i = 0; i < size2D; i++) {
-        matrix[i] = [];
-    }
-
-    for (var j = 0; j < countPoints; j++) {
-        for (var i = 0; i < size2D; i++) {
-            matrix[i][j] = pointsList.shift();
-            pointsList.push(matrix[i][j]);
-        }
-    }
-
-    return matrix;
-}
-
 function translate(x, y) {
     if (!selectedShape) {
         alert("Erro: Selecione uma forma antes de aplicar a escala.");
@@ -54,19 +23,7 @@ function translate(x, y) {
         }
     }
 
-    if (selectedShape.constructor.name == "Rectangle") {
-        newPointsVector.splice(2, 2);
-        newPointsVector.splice(4, 2);
-        recreate = `create${selectedShape.constructor.name}(newPointsVector);`
-    } else if (selectedShape.constructor.name == "Circle") {
-        recreate = `create${selectedShape.constructor.name}(newPointsVector, ${selectedShape.radius});`
-    } else {
-        recreate = `create${selectedShape.constructor.name}(newPointsVector);`
-    }
-
-    remove();
-    eval(recreate);
-    select(shapesList.length - 1);
+    updatePoints(newPointsVector, selectedShape);
     clearCanvas(true);
     reDrawEverything();
 }
@@ -101,23 +58,7 @@ function scale(x, y) {
         }
     }
 
-    var recreate;
-
-    if (selectedShape.constructor.name == "Rectangle") {
-        newPointsVector.splice(2, 2);
-        newPointsVector.splice(4, 2);
-        recreate = `create${selectedShape.constructor.name}(newPointsVector);`
-    } else if (selectedShape.constructor.name == "Circle") {
-        recreate = `create${selectedShape.constructor.name}(newPointsVector, ${selectedShape.radius});`
-    } else {
-        recreate = `create${selectedShape.constructor.name}(newPointsVector);`
-    }
-
-    remove();
-    // createLine(newPointsVector);
-    console.log(recreate);
-    eval(recreate);
-    select(shapesList.length - 1);
+    updatePoints(newPointsVector, selectedShape);
     clearCanvas(true);
     reDrawEverything();
 }
@@ -149,23 +90,7 @@ function rotate(angle) {
         }
     }
 
-    var recreate;
-
-    if (selectedShape.constructor.name == "Rectangle") {
-        newPointsVector.splice(2, 2);
-        newPointsVector.splice(4, 2);
-        recreate = `create${selectedShape.constructor.name}(newPointsVector);`
-    } else if (selectedShape.constructor.name == "Circle") {
-        recreate = `create${selectedShape.constructor.name}(newPointsVector, ${selectedShape.radius});`
-    } else {
-        recreate = `create${selectedShape.constructor.name}(newPointsVector);`
-    }
-
-    remove();
-    // createLine(newPointsVector);
-    console.log(recreate);
-    eval(recreate);
-    select(shapesList.length - 1);
+    updatePoints(newPointsVector, selectedShape);
     clearCanvas(true);
     reDrawEverything();
 }

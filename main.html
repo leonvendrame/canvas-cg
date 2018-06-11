@@ -10,11 +10,17 @@
 <body>
     <h1 id="title">Trabalho de Computação Gráfica</h1>
     <div class="body-center">
-        <ul class="forms">
-            <li><button class="button is-dark is-rounded" id="line-btn" onclick="cEL(1)">Linha</button></li>
-            <li><button class="button is-dark is-rounded" id="rectangle-btn" onclick="cEL(2)">Retângulo</button></li>
-            <li><button class="button is-dark is-rounded" id="circle-btn"onclick="cEL(3)">Círculo</button></li>
-            <li><button class="button is-dark is-rounded" id="triangle-btn"onclick="cEL(4)">Triângulo</button></li>
+        <ul class="shapes   ">
+            <li><button class="button is-dark is-rounded" id="line-btn" onclick="changeFunction(1)">Linha</button></li>
+            <li><button class="button is-dark is-rounded" id="rectangle-btn" onclick="changeFunction(2)">Retângulo</button></li>
+            <li><button class="button is-dark is-rounded" id="circle-btn"onclick="changeFunction(3)">Círculo</button></li>
+            <li><button class="button is-dark is-rounded" id="triangle-btn"onclick="changeFunction(4)">Triângulo</button></li>
+        </ul>
+
+        <ul class="transforms">
+            <li><button class="button is-dark is-rounded" id="translation-btn" onclick="changeFunction(5)">Transalação</button></li>
+            <li><button class="button is-dark is-rounded" id="rotatatin-btn" onclick="changeFunction(6)">Rotação</button></li>
+            <li><button class="button is-dark is-rounded" id="scale-btn"onclick="changeFunction(7)">M. de Escala</button></li>
         </ul>
         
         <canvas id="workcanvas" width="640px" height="480px" onmousedown="storeGuess(event)" onmousemove="getMousePos(event)">Seu navegador não tem suporte à exibição. Por favor, tente em outro.</canvas>

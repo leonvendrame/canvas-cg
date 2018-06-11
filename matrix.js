@@ -1,3 +1,34 @@
+function toHomogeneousMatrix(shapeObject) {
+    var pointsList = [];
+    var countPoints = 0;
+    const keys = Object.keys(shapeObject.points);
+    // console.log(keys);
+    var matrix = [];
+
+    for (var key of keys) {
+        pointsList.push(shapeObject.points[key]['x']);
+        pointsList.push(shapeObject.points[key]['y']);
+        pointsList.push(1);
+        countPoints++;
+        // if (shapeObject.constructor.name == "Circle") {
+        //     pointsList.push(shapeObject.radius);
+        // }
+    }
+
+    for (var i = 0; i < size2D; i++) {
+        matrix[i] = [];
+    }
+
+    for (var j = 0; j < countPoints; j++) {
+        for (var i = 0; i < size2D; i++) {
+            matrix[i][j] = pointsList.shift();
+            pointsList.push(matrix[i][j]);
+        }
+    }
+
+    return matrix;
+}
+
 function translationMatrix(x, y) {
     var translatePoint = [x, y];
     var translationMatrix = [];

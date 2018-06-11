@@ -5,6 +5,8 @@ var selectionList = document.getElementById("shapes");
 var globalOption = 0;
 var id = 0;
 
+var secondClick = false;
+
 var coords = [];
 var shapesList = [];
 var selectedShape = null;
@@ -45,9 +47,11 @@ function submitCommandLine() {
         "rotate": "rotate(commands[0]);",
         "translate": "translate(commands[0], commands[1]);"
     };
+
     try {
         var commands = commandLine.value.split(" ");
         var shape = commands.shift();
+        if (!commandDict[shape]) throw "Erro: Comando não reconhecido.";
         const createCommandLine = commandDict[shape];
         console.log(createCommandLine);
         eval(createCommandLine);
@@ -88,6 +92,8 @@ function changeFunction(button) {
             document.getElementById("circle-btn").classList.remove("is-inverted");
             document.getElementById("triangle-btn").classList.add("is-inverted");
             break;
+        case(7):
+            secondClick = callScale(secondClick);
     }
     coords = [];
 }
@@ -114,7 +120,9 @@ function storeGuess(event) {
     var x = event.offsetX;
     var y = event.offsetY;
     
-    if (globalOption == 0) {
+    if (secondClick) {
+        secondClick = callScale(secondClick, [x, y]);
+    } else if (globalOption == 0) {
         alert("Erro: Nenhuma função selecionada.");
     } else if (globalOption == 1) {
         countLine = getPoints(x, y, countLine, 2, createLine);
@@ -141,23 +149,15 @@ function draw(shapeObject) {
     switch(shapeObject.constructor.name) {        
         case "Line":
             drawLine(shapeObject);
-            // drawLine([shapeObject.origin['x'], shapeObject.origin['y'],
-            //             shapeObject.dest['x'], shapeObject.dest['y']];
             break;
         case "Triangle":
             drawTriangle(shapeObject);
-            // drawTriangle([shapeObject.origin['x'], shapeObject.origin['y'],
-            //                 shapeObject.dest1['x'], shapeObject.dest1['y'],
-            //                 shapeObject.dest2['x'], shapeObject.dest2['y']]);
             break;
         case "Circle":
             drawCircle(shapeObject);
-            // drawCircle([shapeObject.center['x'], shapeObject.center['y']], shapeObject.radius);
             break;
         case "Rectangle":
             drawRectangle(shapeObject);
-            // drawRectangle([shapeObject.origin['x'], shapeObject.origin['y'],
-            //                 shapeObject.dest3['x'], shapeObject.dest3['y']]);
             break;
     }
 }
