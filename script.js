@@ -41,9 +41,13 @@ document.body.addEventListener("keyup", function(event) {
 function submitCommandLine() {
     const commandDict = {
         "line": "createLine(commands);",
+        "rectangle": "createRectangle(commands);",
+        "circle": "createCircle(commands);",
+        "triangle": "createTriangle(commands);",
         "select": "select(commands[0]);",
         "unselect": "unselect(commands[0]);",
-        "scale": "scale(commands[0], commands[1]);",
+        "scale": "scale(commands[0], commands[1], commands[2], commands[3]);",
+        "scaleOrigin": "scale(commands[0], commands[1]);",
         "rotate": "rotate(commands[0]);",
         "translate": "translate(commands[0], commands[1]);"
     };
@@ -94,6 +98,10 @@ function changeFunction(button) {
             break;
         case(7):
             secondClick = callScale(secondClick);
+            document.getElementById("line-btn").classList.remove("is-inverted");
+            document.getElementById("rectangle-btn").classList.remove("is-inverted");
+            document.getElementById("circle-btn").classList.remove("is-inverted");
+            document.getElementById("triangle-btn").classList.remove("is-inverted");
     }
     coords = [];
 }
@@ -176,8 +184,8 @@ function clearCanvas(keep) {
     }
 }
 
-createLine([23, 34, 333, 555]);
-createCircle([23, 120], 45);
-createRectangle([23, 54, 65, 87]);
-createTriangle([23, 43, 65, 76, 222, 111]);
-select(0);
+// createLine([23, 34, 160, 250]);
+// createCircle([23, 120], 45);
+// createRectangle([23, 54, 65, 87]);
+// createTriangle([23, 43, 65, 76, 222, 111]);
+// select(0);

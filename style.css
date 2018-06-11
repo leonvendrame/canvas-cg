@@ -26,6 +26,10 @@ body {
     margin-right: 5px;
 }
 
+.shapes .button {
+    width: 150px;
+}
+
 #workcanvas {
     /* border: 5px;
     border-color: black; */
@@ -53,12 +57,16 @@ body {
 }
 
 .transforms {
-    position: absolute;
-    left: 200px;
-    top: 140px;
+    position: relative;
+    float: left;
+    margin-top;
 }
 
 .transforms li {
     margin-top: 8px;
     margin-bottom: 8px;
+}
+
+.transforms .button {
+    width: 150px;
 }

@@ -28,9 +28,10 @@ function translate(x, y) {
     reDrawEverything();
 }
 
-function scale(x, y) {
+function scale(x, y, a = selectedShape.points["origin"]["x"], b = selectedShape.points["origin"]["y"]) {
     if (!selectedShape) {
         alert("Erro: Selecione uma forma antes de aplicar a escala.");
+        return;
     } else {
         var shapeObjectMatrix = toHomogeneousMatrix(selectedShape);
     }
@@ -45,8 +46,8 @@ function scale(x, y) {
     var scaleM = scaleMatrix(x, y);;
     var newPointsVector = [];
     var newPointsMatrix;
-    var translateToOrigin = translationMatrix(-selectedShape.points["origin"]["x"], -selectedShape.points["origin"]["y"]);
-    var translateBack = translationMatrix(selectedShape.points["origin"]["x"], selectedShape.points["origin"]["y"]);
+    var translateToOrigin = translationMatrix(-a, -b);
+    var translateBack = translationMatrix(a, b);
     
     newPointsMatrix = multiply(translateBack, scaleM);
     newPointsMatrix = multiply(newPointsMatrix, translateToOrigin);
@@ -63,8 +64,8 @@ function scale(x, y) {
     reDrawEverything();
 }
 
-function scaleCircles(radius) {
-    console.log("É um circulo, raio " + radius);
+function scaleCircles(scale) {
+    selectedShape.radius = selectedShape.radius * scale;
 }
 
 function rotate(angle) {

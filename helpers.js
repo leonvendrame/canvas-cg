@@ -92,7 +92,7 @@ function updatePoints(coordinates, shapeObject, radius = null) {
     switch (shapeObject.constructor.name) {
         case "Circle":
             shapeObject.points["center"]["x"] = coordinates.shift();
-            shapeObject.points["cebter"]["y"] = coordinates.shift();
+            shapeObject.points["center"]["y"] = coordinates.shift();
             shapeObject.radius = radius;
             break;
         case "Rectangle":
@@ -122,11 +122,14 @@ function capitalizeFirstLetter(string) {
 }
 
 function callScale(secondClick, coordinates) {
+    document.getElementById("scale-btn").classList.add("is-inverted");
+    var selectedPoint = {"x": -1, "y": -1};
+    var minDistance = 999999;
     if (!selectedShape) {
         alert("Erro: Selecione uma forma antes de aplicar a transformação");
+        document.getElementById("scale-btn").classList.remove("is-inverted");
         return;
     }
-    console.log(secondClick);
     if (selectedShape.constructor.name == "Circle") {
         prompt("Digite o valor que deseja escalar o raio.", "Ex.: 2");    
     } else {
@@ -137,14 +140,27 @@ function callScale(secondClick, coordinates) {
             // console.log(coordinates);
             let scaleVector = prompt("Digite o valor que deseja escalar em X e em Y separados por espaço.", "Ex.: 2 0.5");
             scaleVector = scaleVector.replace(/[a-z]/gi, "").trim();
+            console.log(scaleVector);
             scaleVector = scaleVector.split(" ");
 
-            for (var key of Object.keys(selectedShape.points));
-                console.log(key);
+            for (var key of Object.keys(selectedShape.points)) {
+                const distance = Math.abs(Math.hypot(coordinates[0]-selectedShape.points[key]["x"],
+                                            coordinates[1]-selectedShape.points[key]["y"]));
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    selectedPoint["x"] = selectedShape.points[key]["x"];
+                    selectedPoint["y"] = selectedShape.points[key]["y"];
+                }
+            }
+
+            console.log(selectedPoint);
             console.log(scaleVector);
 
-            scale(scaleVector[0], scaleVector[1]);
+            scale(scaleVector[0], scaleVector[1], selectedPoint["x"], selectedPoint["y"]);
+            document.getElementById("scale-btn").classList.remove("is-inverted");
+            globalOption = 0;
             return false;
         }
     }
+    
 }
