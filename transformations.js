@@ -22,8 +22,13 @@ function translate(x, y) {
             newPointsVector.push(newPointsMatrix[i][j]);
         }
     }
-
-    updatePoints(newPointsVector, selectedShape);
+    
+    if (selectedShape.constructor.name == "Circle") {
+        updatePoints(newPointsVector, selectedShape, selectedShape.radius);
+    } else {
+        updatePoints(newPointsVector, selectedShape);
+    }
+    
     clearCanvas(true);
     reDrawEverything();
 }

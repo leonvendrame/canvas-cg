@@ -30,13 +30,12 @@ commandLine.addEventListener("keyup", function(event) {
     }
 });
 
-
-document.body.addEventListener("keyup", function(event) {
-    event.preventDefault();
-    if (event.keyCode === 76) {
-        changeFunction(1);
-    } 
-});
+// document.body.addEventListener("keyup", function(event) {
+//     event.preventDefault();
+//     if (event.keyCode === 76) {
+//         changeFunction(1);
+//     } 
+// });
 
 function submitCommandLine() {
     const commandDict = {
@@ -122,10 +121,13 @@ function changeFunction(button) {
     coords = [];
 }
 
+var liveRefresh = false;
+
 function getPoints(x, y, count, original, func) {
     if (count > 0) {
         coords.push(x, y);
         --count;
+        liveRefresh = true;
     }
     if (count == 0) {
         if (func == createCircle) {
@@ -136,6 +138,7 @@ function getPoints(x, y, count, original, func) {
         }
         coords = [];
         count = original;
+        liveRefresh = false;
     }
     return count;
 }
@@ -164,6 +167,70 @@ function storeGuess(event) {
         countCircle = getPoints(x, y, countCircle, 2, createCircle);
     } else if (globalOption == 4) {
         countTriangle = getPoints(x, y, countTriangle, 3, createTriangle);
+    }
+    clearCanvas(true);
+    reDrawEverything();
+}
+
+var points = {};
+var firstClick = true;
+
+function clickEvent(event) {
+    var x = event.offsetX;
+    var y = event.offsetY;
+
+    coords.push(x, y);
+
+    if (firstClick) {
+        firstClick = false;
+    } else {
+        createLine(coords);
+        clearCanvas(true);
+        reDrawEverything();
+        firstClick = true;
+        coords = [];
+    }
+}
+
+function currentLine(event) {
+    var x = event.offsetX;
+    var y = event.offsetY;
+    document.getElementById("mouse-position").innerHTML = `Posição X: ${x} Y: ${y}`;
+
+    if (liveRefresh) {
+        clearCanvas(true);
+        reDrawEverything();
+        if (globalOption == 1) {
+            context.beginPath();
+            context.moveTo(coords[0], coords[1]);
+            context.lineTo(x, y);
+            context.stroke();
+            context.closePath();
+        } else if (globalOption == 2) {
+            context.beginPath();
+            context.moveTo(coords[0], coords[1]);
+            context.lineTo(x, coords[1]);
+            context.lineTo(x, y);
+            context.lineTo(coords[0], y);
+            context.closePath();
+            context.stroke();
+        } else if (globalOption == 3) {
+            context.beginPath();
+            var radius = Math.abs(Math.hypot(x-coords[0], y-coords[1]));
+            // context.moveTo(coords[0], coords[1]);
+            context.arc(coords[0], coords[1], radius, 0, 2 * Math.PI);
+            context.stroke();
+            context.closePath();
+        } else if (globalOption == 4) {
+            context.beginPath();
+            context.moveTo(coords[0], coords[1]);
+            if (coords[2] && coords[3]) {
+                context.lineTo(coords[2], coords[3]);
+            }
+            context.lineTo(x, y);
+            context.closePath();
+            context.stroke();
+        }
     }
 }
 
@@ -204,7 +271,7 @@ function clearCanvas(keep) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     if (keep != true) {
         shapesList = [];
-        selectionList.innerHTML = `<li id="selection-list-title">Selecione</li>`
+        selectionList.innerHTML = `<li id="selection-list-title">Lista de Seleção</li>`
     }
 }
 

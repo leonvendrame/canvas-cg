@@ -23,11 +23,11 @@
             <li><button class="button is-dark is-rounded" id="scale-btn"onclick="changeFunction(7)">M. de Escala</button></li>
         </ul>
         
-        <canvas id="workcanvas" width="800px" height="480px" onmousedown="storeGuess(event)" onmousemove="getMousePos(event)">Seu navegador não tem suporte à exibição. Por favor, tente em outro.</canvas>
+        <canvas id="workcanvas" width="1000px" height="480px" onclick="storeGuess(event)" onmousemove="currentLine(event)">Seu navegador não tem suporte à exibição. Por favor, tente em outro.</canvas>
     </div>
     <div id="list-of-shapes">
         <ul id="shapes">
-            <li id="selection-list-title">Selecione</li>
+            <li id="selection-list-title">Lista de Seleção</li>
         </ul>
     </div>
     <div class="body-center">
@@ -38,7 +38,7 @@
         Linha de comando: <input id="commandLine"><button onclick="submitCommandLine()">Enter</button>
     </div>
 
-    <a id="help" class="is-rounded icon is-large"><i class="fas fa-question-circle"></i></a>
+    <a id="help" class="is-rounded icon is-large"><i class="fa fa-5x fa-question-circle" style="color: #FFF"></i>Ajuda</a>
     
     <script src="/classes.js"></script>
     <script src="/helpers.js"></script>
