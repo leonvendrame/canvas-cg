@@ -113,10 +113,6 @@ function updatePoints(coordinates, shapeObject, radius = null) {
     }
 }
 
-function getClosestPoint() {
-
-}
-
 function capitalizeFirstLetter(string) {
     return string.replace(/^./, string[0].toUpperCase());
 }
@@ -141,7 +137,7 @@ function callScale(secondClick, coordinates) {
         } else {
             // console.log(coordinates);
             let scaleVector = prompt("Digite o valor que deseja escalar em X e em Y separados por espaço.", "Ex.: 2 0.5");
-            scaleVector = scaleVector.replace(/[a-z]/gi, "").trim();
+            scaleVector = scaleVector.replace(/[^0-9|\s]/gi, "").replace(/[\s]{2,}/gi, " ").trim();
             scaleVector = scaleVector.split(" ");
 
             for (var key of Object.keys(selectedShape.points)) {
@@ -182,7 +178,7 @@ function callRotation(secondClick, coordinates) {
         } else {
             // console.log(coordinates);
             let rotationAngle = prompt("Digite o valor do ângulo em graus.", "Ex.: 90");
-            rotationAngle = rotationAngle.replace(/[a-z]/gi, "").trim();
+            rotationAngle = rotationAngle.replace(/[^0-9|\s]/gi, "").replace(/[\s]{2,}/gi, " ").trim();
             rotationAngle = rotationAngle.split(" ");
 
             for (var key of Object.keys(selectedShape.points)) {
@@ -210,8 +206,8 @@ function callTranslation() {
         return;
     } else {
         let translationVector = prompt("Digite o valor que deseja transladar em X e Y separados\
-                                        por espaço.", "Ex.: 90 20");
-        translationVector = translationVector.replace(/[a-z]/gi, "").trim();
+                                        por espaço.", "Ex.: 65 45");
+        translationVector = translationVector.replace(/[^0-9|\s]/gi, "").replace(/[\s]{2,}/gi, " ").trim();
         translationVector = translationVector.split(" ");
 
         translate(translationVector[0], translationVector[1]);

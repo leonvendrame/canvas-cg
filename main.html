@@ -8,38 +8,39 @@
 </head>
 
 <body>
-    <h1 id="title">Trabalho de Computação Gráfica</h1>
-    <div class="body-center">
-        <ul class="shapes   ">
-            <li><button class="button is-dark is-rounded" id="line-btn" onclick="changeFunction(1)">Linha</button></li>
-            <li><button class="button is-dark is-rounded" id="rectangle-btn" onclick="changeFunction(2)">Retângulo</button></li>
-            <li><button class="button is-dark is-rounded" id="circle-btn"onclick="changeFunction(3)">Círculo</button></li>
-            <li><button class="button is-dark is-rounded" id="triangle-btn"onclick="changeFunction(4)">Triângulo</button></li>
-        </ul>
+    <div id="bg">
+        <h1 id="title">Trabalho de Computação Gráfica</h1>
+        <!-- <div class="body-center"> -->
+            <ul class="shapes   ">
+                <li><button class="button is-dark is-rounded" id="line-btn" onclick="changeFunction(1)">Linha</button></li>
+                <li><button class="button is-dark is-rounded" id="rectangle-btn" onclick="changeFunction(2)">Retângulo</button></li>
+                <li><button class="button is-dark is-rounded" id="circle-btn"onclick="changeFunction(3)">Círculo</button></li>
+                <li><button class="button is-dark is-rounded" id="triangle-btn"onclick="changeFunction(4)">Triângulo</button></li>
+            </ul>
 
-        <ul class="transforms">
-            <li><button class="button is-dark is-rounded" id="translation-btn" onclick="changeFunction(5)">Transalação</button></li>
-            <li><button class="button is-dark is-rounded" id="rotation-btn" onclick="changeFunction(6)">Rotação</button></li>
-            <li><button class="button is-dark is-rounded" id="scale-btn"onclick="changeFunction(7)">M. de Escala</button></li>
-        </ul>
-        
-        <canvas id="workcanvas" width="1000px" height="480px" onclick="storeGuess(event)" onmousemove="currentLine(event)">Seu navegador não tem suporte à exibição. Por favor, tente em outro.</canvas>
-    </div>
-    <div id="list-of-shapes">
-        <ul id="shapes">
-            <li id="selection-list-title">Lista de Seleção</li>
-        </ul>
-    </div>
-    <div class="body-center">
-        <p id="mouse-position">Posição X: - Y: -</p>
-        <br>
-        <button class="button is-dark is-rounded" onclick="clearCanvas()">Limpar</button>
-        <button class="button is-dark is-rounded" onclick="remove()">Remover</button><br>
-        Linha de comando: <input id="commandLine"><button onclick="submitCommandLine()">Enter</button>
-    </div>
+            <ul class="transforms">
+                <li><button class="button is-dark is-rounded" id="translation-btn" onclick="changeFunction(5)">Transalação</button></li>
+                <li><button class="button is-dark is-rounded" id="rotation-btn" onclick="changeFunction(6)">Rotação</button></li>
+                <li><button class="button is-dark is-rounded" id="scale-btn"onclick="changeFunction(7)">M. de Escala</button></li>
+            </ul>
+            
+            <canvas id="workcanvas" onclick="storeGuess(event)" onmousemove="currentLine(event)">Seu navegador não tem suporte à exibição. Por favor, tente em outro.</canvas>
+        <!-- </div> -->
+        <div id="list-of-shapes">
+            <ul id="shapes">
+                <li id="selection-list-title">Lista de Seleção</li>
+            </ul>
+        </div>
+        <div class="body-center">
+            <p id="mouse-position">Posição X: - Y: -</p>
+            <br>
+            <button class="button is-dark is-rounded" onclick="clearCanvas()">Limpar</button>
+            <button class="button is-dark is-rounded" onclick="remove()">Remover</button><br>
+            Linha de comando: <input id="commandLine"><button onclick="submitCommandLine()">Enter</button>
+        </div>
 
-    <a id="help" class="is-rounded icon is-large"><i class="fa fa-5x fa-question-circle" style="color: #FFF"></i>Ajuda</a>
-    
+        <a id="help" class="is-rounded icon is-large"><i class="fa fa-5x fa-question-circle" style="color: #FFF"></i>Ajuda</a>
+    </div>
     <script src="/classes.js"></script>
     <script src="/helpers.js"></script>
     <script src="/drawers.js"></script>

@@ -3,9 +3,23 @@
     font-size: 20pt;
 }
 
+html {
+    height: 100%;
+}
+
 body { 
-    background-color: #3a3a3a;
+    background-color: #3a3a3a;   
     color: white;
+    height: 100%;
+    width: 100%;
+}
+
+.bg {
+    background-color: #3a3a3a;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
 }
 
 .button:hover {
@@ -36,9 +50,14 @@ body {
     /* border-style: solid; */
     /* border-radius: 10px; */
     /* width: 80%; */
+    /* position: absolute; */
     background-color: #d8d8d8;
     cursor: pointer;
+    margin-left: 200px;
     margin-top: 25px;
+    margin-right: 25px;
+    width: 100% - 25px;
+    height: 90%;
 }
 
 #commandLine {
