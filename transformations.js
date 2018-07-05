@@ -136,3 +136,32 @@ function multiply(matrixA, matrixB) {
 
     return matrixResult;
 }
+
+function zoomExtend() {
+    var xMin = canvas.width;
+    var xMax = 0;
+    var yMin = canvas.height;
+    var yMax = 0;
+    var newXMin = 50;
+    var newXMax = canvas.width - 50;
+    var newYMin = 50;
+    var newYMax = canvas.height - 50;
+
+    for (let shapeObject of shapesList) {
+        if (shapeObject.constructor.name != "Circle") {
+            for (let points of Object.keys(shapeObject.points)) {
+                if (shapeObject.points[points]["x"] < xMin) {
+                    xMin = shapeObject.points[points]["x"];
+                } if (shapeObject.points[points]["x"] > xMax) {
+                    xMax = shapeObject.points[points]["x"];
+                } if (shapeObject.points[points]["y"] < yMin) {
+                    yMin = shapeObject.points[points]["y"];
+                } if (shapeObject.points[points]["y"] > yMax) {
+                    yMax = shapeObject.points[points]["y"];
+                }
+            }
+        }
+    }
+
+    console.log(xMin, xMax, yMin, yMax);
+}

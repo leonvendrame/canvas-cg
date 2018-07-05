@@ -4,6 +4,8 @@ var context = canvas.getContext("2d");
 var selectionList = document.getElementById("shapes");
 var globalOption = 0;
 var id = 0;
+var firstTimeShape = {"line": true, "circle": true, "rectangle": true, "triangle":true};
+var firstTimeOption = {"scale": true, "translation": true, "rotation": true};
 
 var secondClick = false;
 
@@ -46,7 +48,6 @@ function submitCommandLine() {
         "select": "select(commands[0]);",
         "unselect": "unselect(commands[0]);",
         "scale": "scale(commands[0], commands[1], commands[2], commands[3]);",
-        "scaleOrigin": "scale(commands[0], commands[1]);",
         "rotate": "rotate(commands[0], commands[1], commands[2]);",
         "translate": "translate(commands[0], commands[1]);"
     };
@@ -56,11 +57,11 @@ function submitCommandLine() {
         var shape = commands.shift();
         if (!commandDict[shape]) throw "Erro: Comando não reconhecido.";
         const createCommandLine = commandDict[shape];
-        console.log(createCommandLine);
+        // console.log(createCommandLine);
         eval(createCommandLine);
     } catch(err) {
-        console.log("Erro: Comando não reconhecido.");
-        alert("Erro: Comando não reconhecido.");
+        console.log(err);
+        alert(err);
     }
 }
 
@@ -275,6 +276,13 @@ function clearCanvas(keep) {
     }
 }
 
+function help(open = false) {
+    if (open) {
+        document.getElementById("help-box").classList.add("is-active");
+    } else {
+        document.getElementById("help-box").classList.remove("is-active");
+    }
+}
 // createLine([23, 34, 160, 250]);
 // createCircle([23, 120], 45);
 // createRectangle([23, 54, 65, 87]);

@@ -12,7 +12,7 @@ function switchSelection(index) {
 
 function select(index) {
     if (index >= shapesList.length) {
-        console.log("Erro: Forma não presente na lista.");
+        alert("Erro: Forma não presente na lista.");
         return;
     }
     var shapeObject = shapesList[index];
@@ -28,7 +28,8 @@ function select(index) {
     }
 }
 
-function unselect(index) {
+function unselect() {
+    var index = shapesList.indexOf(selectedShape);
     if (index >= shapesList.length) {
         console.log("Erro: Forma não presente na lista.");
         return;
@@ -207,7 +208,7 @@ function callTranslation() {
     } else {
         let translationVector = prompt("Digite o valor que deseja transladar em X e Y separados\
                                         por espaço.", "Ex.: 65 45");
-        translationVector = translationVector.replace(/[^0-9|\s]/gi, "").replace(/[\s]{2,}/gi, " ").trim();
+        translationVector = translationVector.replace(/[^0-9|\s|-]/gi, "").replace(/[\s]{2,}/gi, " ").trim();
         translationVector = translationVector.split(" ");
 
         translate(translationVector[0], translationVector[1]);
