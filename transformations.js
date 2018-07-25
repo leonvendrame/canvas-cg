@@ -162,6 +162,23 @@ function zoomExtend() {
             }
         }
     }
+    
+
+    for (let shapeObject in shapesList) {
+        select(shapeObject);
+        translate(-xMin, -yMin);
+        scale(1.5, 1.5, 0, 0);
+        unselect();
+    }
+
+    xMin -= 20;
+    xMax += 20;
+    yMin -= 20;
+    yMax += 20;
+
+    // createRectangle([xMin, yMin, xMax, yMax]);
 
     console.log(xMin, xMax, yMin, yMax);
+    clearCanvas(true);
+    reDrawEverything();
 }

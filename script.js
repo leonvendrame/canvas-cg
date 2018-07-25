@@ -6,20 +6,15 @@ var globalOption = 0;
 var id = 0;
 var firstTimeShape = {"line": true, "circle": true, "rectangle": true, "triangle":true};
 var firstTimeOption = {"scale": true, "translation": true, "rotation": true};
-
 var secondClick = false;
-
 var coords = [];
 var shapesList = [];
 var selectedShape = null;
-
 var counts = {line: 2};
-
 var countLine = 2;
 var countRectangle = 2;
 var countTriangle = 3;
 var countCircle = 2;
-
 var minPointX = 0;
 var minPointY = 0;
 var maxPointX = canvas.width;
@@ -31,13 +26,6 @@ commandLine.addEventListener("keyup", function(event) {
         submitCommandLine();
     }
 });
-
-// document.body.addEventListener("keyup", function(event) {
-//     event.preventDefault();
-//     if (event.keyCode === 76) {
-//         changeFunction(1);
-//     } 
-// });
 
 function submitCommandLine() {
     const commandDict = {
@@ -69,33 +57,49 @@ function changeFunction(button) {
     globalOption = button;
     switch(globalOption) {
         case(1):
-            alert("Clique nos pontos de origem e destino da reta dentro da tela delimitada.");
             document.getElementById("line-btn").classList.add("is-inverted");
             document.getElementById("rectangle-btn").classList.remove("is-inverted");
             document.getElementById("circle-btn").classList.remove("is-inverted");
             document.getElementById("triangle-btn").classList.remove("is-inverted");
+            if (firstTimeShape["line"]) {
+                alert("Clique nos pontos de origem e destino da reta dentro da tela delimitada.");
+                firstTimeShape["line"] = false;
+            }
             break;
+
         case(2):
-            alert("Clique nos pontos de origem e destino da diagonal que formará o retângulo dentro da tela delimitada.");
             document.getElementById("line-btn").classList.remove("is-inverted");
             document.getElementById("rectangle-btn").classList.add("is-inverted");
             document.getElementById("circle-btn").classList.remove("is-inverted");
             document.getElementById("triangle-btn").classList.remove("is-inverted");
+            if (firstTimeShape["rectangle"]) {
+                alert("Clique nos pontos de origem e destino da diagonal que formará o retângulo dentro da tela delimitada.");
+                firstTimeShape["rectangle"] = false;
+            }
             break;
+
         case(3):
-            alert("Clique no ponto que será o centro do círculo e após isso o ponto que definirá o raio do mesmo na tela delimitada.");
             document.getElementById("line-btn").classList.remove("is-inverted");
             document.getElementById("rectangle-btn").classList.remove("is-inverted");
             document.getElementById("circle-btn").classList.add("is-inverted");
             document.getElementById("triangle-btn").classList.remove("is-inverted");
+            if (firstTimeShape["circle"]) {
+                alert("Clique no ponto que será o centro do círculo e após isso o ponto que definirá o raio do mesmo na tela delimitada.");
+                firstTimeShape["circle"] = false;
+            }
             break;
+
         case(4):
-            alert("Clique nos três pontos que formarão o retângulo dentro da tela delimitada.");
             document.getElementById("line-btn").classList.remove("is-inverted");
             document.getElementById("rectangle-btn").classList.remove("is-inverted");
             document.getElementById("circle-btn").classList.remove("is-inverted");
             document.getElementById("triangle-btn").classList.add("is-inverted");
+            if (firstTimeShape["triangle"]) {
+                alert("Clique nos três pontos que formarão o triângulo dentro da tela delimitada.");
+                firstTimeShape["triangle"] = false;
+            }
             break;
+
         case(5):
             secondClick = callTranslation();
             document.getElementById("line-btn").classList.remove("is-inverted");
@@ -268,9 +272,9 @@ function reDrawEverything() {
     }
 }
 
-function clearCanvas(keep) {
+function clearCanvas(keep = false) {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    if (keep != true) {
+    if (!keep) {
         shapesList = [];
         selectionList.innerHTML = `<li id="selection-list-title">Lista de Seleção</li>`
     }
@@ -283,6 +287,7 @@ function help(open = false) {
         document.getElementById("help-box").classList.remove("is-active");
     }
 }
+
 // createLine([23, 34, 160, 250]);
 // createCircle([23, 120], 45);
 // createRectangle([23, 54, 65, 87]);
