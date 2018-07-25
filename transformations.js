@@ -88,8 +88,17 @@ function rotate(angle, a, b) {
     }
 
     if (!a || !b) {
-        a = selectedShape.points["origin"]["x"];
-        b = selectedShape.points["origin"]["y"];
+        if (selectedShape.constructor.name == "Circle") {
+            a = selectedShape.points["center"]["x"];
+            b = selectedShape.points["center"]["y"];
+        } else {
+            a = selectedShape.points["origin"]["x"];
+            b = selectedShape.points["origin"]["y"];
+        }
+    }
+
+    if (selectedShape.constructor.name == "Circle") {
+        var radius = selectedShape.radius;
     }
 
     var rotateM = rotationMatrix(angle);
@@ -108,7 +117,7 @@ function rotate(angle, a, b) {
         }
     }
 
-    updatePoints(newPointsVector, selectedShape);
+    updatePoints(newPointsVector, selectedShape, radius);
     clearCanvas(true);
     reDrawEverything();
 }
@@ -184,5 +193,5 @@ function zoomExtend() {
 }
 
 function zoomIn() {
-    
+
 }

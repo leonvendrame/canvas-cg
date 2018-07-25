@@ -53,30 +53,57 @@
             </header>
             <section class="modal-card-body">
                 <p>
-                    <span class="subtitle">Considerações e Convenções</span><br>
-                    O que é a origem do objeto?<br>
-                    A origem de um objeto é o primeiro ponto daquele objeto.
-
-                    Todas as aplicações podem ser utilizadas em relação ao ponto origem.
-
-                    Todas as transformações só podem ser aplicadas à forma selecionada.
+                    <span class="subtitle">Considerações e Convenções</span><br><br>
+                    O que é o ponto origem de um objeto?<br>
+                    O ponto origem de um objeto é o primeiro ponto da criação do objeto. Note que
+                    para o sistema, duas linhas com os mesmos pontos podem ter pontos de origem diferentes.
+                    Por exemplo: a linha de (1, 1) até (100, 100) é diferente da linha de (100, 100) até 
+                    (1, 1), pois possuem pontos de origem diferentes (apesar de serem desenhadas da mesma
+                    forma).<br>
+                    <br>
+                    As transformações só podem ser utilizadas em formas selecionadas. Assim, deve-se
+                    sempre selecionar um objeto antes de aplicar uma transformação.<br>
+                    <br>
+                    Para selecionar um objeto, utilize a linha de comando ou simplesmente clique em cima do nome
+                    do objeto na Lista de Seleção que fica à esquerda da tela.<br>
+                    <br>
+                    O sistema utiliza da regra da mão direita para aplicação de rotações.<br>
+                    <br>
+                    As dicas só aparecem durante a primeira execução. Caso queira rever:<br>
+                    Linha: Clique nos dois pontos que formarão a linha.<br>
+                    Retângulo: Clique nos dois pontos que formarão a diagonal principal do retângulo.<br>
+                    Triângulo: Clique nos três pontos que formarão o triângulo.<br>
+                    Círculo: Clique no ponto que será o centro do círculo e então no ponto que definirá o raio do mesmo.<br>
+                    Translação: Basta informar o quanto deseja transladar em x e em y.<br>
+                    Rotação: Clique no ponto sobre o qual deseja rotacionar o objeto.<br>
+                    M. de Escala: Clique no ponto sobre o qual ocorrerá a mudança de escala.<br>
+                    <br>
+                    Tenha atenção com os valores nas transformações.<br>
+                    Translação: Insira a quantidade que deseja transladar em x e y separados por espaço.
+                    Aqui são permitidos valores positivos, negativos e iguais a zero. Caso seja um número racional 
+                    utilize ponto para a separação.<br>
+                    Rotação: Insira o ângulo em graus. Caso seja um número racional utilize ponto
+                    para a separação.<br>
+                    M. de Escala: Insira o valor o qual deseja escalar em x e em y separados por espaço.
+                    Aqui são permitidos apenas valores maiores que zero. Caso seja um número racional utilize ponto
+                    para a separação.<br>
                 </p>
                 <hr>
                 <p>
-                    <span class="subtitle">Lista de Comandos Disponíveis</span><br>
-                    <span class="description">line x1 y1 x2 y2</span> - Desenha uma linha do ponto (x1, y1) ao ponto (x2, y2) ;<br>
+                    <span class="subtitle">Lista de Comandos Disponíveis</span><br><br>
+                    <span class="description">line x1 y1 x2 y2</span> - Desenha uma linha do ponto (x1, y1) ao ponto (x2, y2).<br>
                     <span class="description">rectangle x1 y1 x2 y2</span> - Desenha um retângulo onde o ponto superior esquerdo é
-                    (x1, y1) e o ponto inferior direito é (x2, y2) ;<br>
-                    <span class="description">circle x y r</span> - Desenha um círculo com o centro no ponto (x, y) e raio r ;<br>
+                    (x1, y1) e o ponto inferior direito é (x2, y2).<br>
+                    <span class="description">circle x y r</span> - Desenha um círculo com o centro no ponto (x, y) e raio r.<br>
                     <span class="description">triangle x1 y1 x2 y2 x3 y3</span> - Desenha um triângulo com os pontos (x1, y1), (x2, y2), 
-                    (x3, y3) ;<br>
-                    <span class="description">select x</span> - Seleciona a forma x da lista. (Verifique o índice na lista de seleção.) ;<br>
-                    <span class="description">unselect</span> - Remove a seleção da atual forma selecionada ;<br>
-                    <span class="description">scale x y</span> - Aplica uma mudança de escala em x e y em relação à origem do objeto ;<br>
-                    <span class="description">scale x1 y1 x2 y2</span> - Aplica a mudança de escala em x1 e y1 em relação ao ponto (x2, y2) ;<br>
-                    <span class="description">rotate g</span> - Aplica uma rotação de g graus em relação à origem do objeto. ;<br>
-                    <span class="description">rotate g x y</span> - Aplica uma rotação de g graus em relação ao ponto (x, y) ;<br>
+                    (x3, y3).<br>
+                    <span class="description">select x</span> - Seleciona o objeto x da lista (verifique o índice na Lista de Seleção).<br>
+                    <span class="description">unselect</span> - Remove a seleção do objeto atualmente selecionado.<br>
                     <span class="description">translate x y</span> - Aplica uma translação em x e em y.
+                    <span class="description">rotate g</span> - Aplica uma rotação de g graus em relação ao ponto origem do objeto.<br>
+                    <span class="description">rotate g x y</span> - Aplica uma rotação de g graus em relação ao ponto (x, y).<br>
+                    <span class="description">scale x y</span> - Aplica uma mudança de escala em x e y em relação ao ponto origem do objeto.<br>
+                    <span class="description">scale x1 y1 x2 y2</span> - Aplica a mudança de escala em x1 e y1 em relação ao ponto (x2, y2).<br>
                 </p>
                 <hr>
                 <p>
