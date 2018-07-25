@@ -176,9 +176,13 @@ function zoomExtend() {
     yMin -= 20;
     yMax += 20;
 
-    // createRectangle([xMin, yMin, xMax, yMax]);
+    createRectangle([xMin, yMin, xMax, yMax]);
 
     console.log(xMin, xMax, yMin, yMax);
     clearCanvas(true);
     reDrawEverything();
+}
+
+function zoomIn() {
+    
 }

@@ -128,30 +128,38 @@ function callScale(secondClick, coordinates) {
         return;
     }
     if (selectedShape.constructor.name == "Circle") {
-        let newScale = prompt("Digite o valor que deseja escalar o raio.", "Ex.: 2");
+        let newScale = prompt("Digite o valor que deseja escalar o raio.", "Ex: 2");
         scale(newScale);
         document.getElementById("scale-btn").classList.remove("is-inverted");
     } else {
         if (!secondClick) {
-            alert("Clique em um ponto próximo ao vértice o qual deseja aplicar a transformação.");
+            if (firstTimeOption["scale"]) {
+                alert("Clique no ponto sobre o qual deseja realizar a mudança de escala.");
+                firstTimeOption["scale"] = false;
+            }
             return true;
         } else {
             // console.log(coordinates);
-            let scaleVector = prompt("Digite o valor que deseja escalar em X e em Y separados por espaço.", "Ex.: 2 0.5");
-            scaleVector = scaleVector.replace(/[^0-9|\s]/gi, "").replace(/[\s]{2,}/gi, " ").trim();
-            scaleVector = scaleVector.split(" ");
+            let scaleVector = prompt("Digite o valor que deseja escalar em X e em Y separados por espaço.", "Ex: 2 0.5");
 
-            for (var key of Object.keys(selectedShape.points)) {
-                const distance = Math.abs(Math.hypot(coordinates[0]-selectedShape.points[key]["x"],
-                                            coordinates[1]-selectedShape.points[key]["y"]));
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    selectedPoint["x"] = selectedShape.points[key]["x"];
-                    selectedPoint["y"] = selectedShape.points[key]["y"];
-                }
+            if (scaleVector == null || scaleVector == "") {
+                changeFunction(0);
             }
 
-            scale(scaleVector[0], scaleVector[1], selectedPoint["x"], selectedPoint["y"]);
+            scaleVector = scaleVector.replace(/[^0-9|\s|\-|\.]/gi, "").replace(/[\s]{2,}/gi, " ").trim();
+            scaleVector = scaleVector.split(" ");
+
+            // for (var key of Object.keys(selectedShape.points)) {
+            //     const distance = Math.abs(Math.hypot(coordinates[0]-selectedShape.points[key]["x"],
+            //                                 coordinates[1]-selectedShape.points[key]["y"]));
+            //     if (distance < minDistance) {
+            //         minDistance = distance;
+            //         selectedPoint["x"] = selectedShape.points[key]["x"];
+            //         selectedPoint["y"] = selectedShape.points[key]["y"];
+            //     }
+            // }
+
+            scale(scaleVector[0], scaleVector[1], coordinates[0], coordinates[1]);
             document.getElementById("scale-btn").classList.remove("is-inverted");
             globalOption = 0;
             return false;
@@ -174,25 +182,33 @@ function callRotation(secondClick, coordinates) {
         document.getElementById("rotation-btn").classList.remove("is-inverted");
     } else {
         if (!secondClick) {
-            alert("Clique em um ponto próximo ao vértice o qual deseja aplicar a transformação.");
+            if (firstTimeOption["rotation"]) {
+                alert("Clique no ponto sobre o qual deseja rotacionar.");
+            }
+            firstTimeOption["rotation"] = false;
             return true;
         } else {
-            // console.log(coordinates);
-            let rotationAngle = prompt("Digite o valor do ângulo em graus.", "Ex.: 90");
-            rotationAngle = rotationAngle.replace(/[^0-9|\s]/gi, "").replace(/[\s]{2,}/gi, " ").trim();
-            rotationAngle = rotationAngle.split(" ");
-
-            for (var key of Object.keys(selectedShape.points)) {
-                const distance = Math.abs(Math.hypot(coordinates[0]-selectedShape.points[key]["x"],
-                                            coordinates[1]-selectedShape.points[key]["y"]));
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    selectedPoint["x"] = selectedShape.points[key]["x"];
-                    selectedPoint["y"] = selectedShape.points[key]["y"];
-                }
+            console.log(coordinates);
+            let rotationAngle = prompt("Digite o valor do ângulo em graus.", "Ex: 90");
+            
+            if (rotationAngle == null || rotationAngle == "") {
+                changeFunction(0);
             }
 
-            rotate(rotationAngle, selectedPoint["x"], selectedPoint["y"]);
+            rotationAngle = rotationAngle.replace(/[^0-9|\s|\-|\.]/gi, "").replace(/[\s]{2,}/gi, " ").trim();
+            rotationAngle = rotationAngle.split(" ");
+
+            // for (var key of Object.keys(selectedShape.points)) {
+            //     const distance = Math.abs(Math.hypot(coordinates[0]-selectedShape.points[key]["x"],
+            //                                 coordinates[1]-selectedShape.points[key]["y"]));
+            //     if (distance < minDistance) {
+            //         minDistance = distance;
+            //         selectedPoint["x"] = selectedShape.points[key]["x"];
+            //         selectedPoint["y"] = selectedShape.points[key]["y"];
+            //     }
+            // }
+
+            rotate(rotationAngle, coordinates[0], coordinates[1]);
             document.getElementById("rotation-btn").classList.remove("is-inverted");
             globalOption = 0;
             return false;
@@ -207,8 +223,13 @@ function callTranslation() {
         return;
     } else {
         let translationVector = prompt("Digite o valor que deseja transladar em X e Y separados\
-                                        por espaço.", "Ex.: 65 45");
-        translationVector = translationVector.replace(/[^0-9|\s|-]/gi, "").replace(/[\s]{2,}/gi, " ").trim();
+                                        por espaço.", "Ex: 65 45");
+
+        if (translationVector == null || translationVector == "") {
+            changeFunction(0);
+        }
+
+        translationVector = translationVector.replace(/[^0-9|\s|\-|\.]/gi, "").replace(/[\s]{2,}/gi, " ").trim();
         translationVector = translationVector.split(" ");
 
         translate(translationVector[0], translationVector[1]);

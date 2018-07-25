@@ -55,7 +55,19 @@ function submitCommandLine() {
 
 function changeFunction(button) {
     globalOption = button;
+    secondClick = false;
     switch(globalOption) {
+        case(0):
+            secondClick = false;
+            document.getElementById("line-btn").classList.remove("is-inverted");
+            document.getElementById("rectangle-btn").classList.remove("is-inverted");
+            document.getElementById("circle-btn").classList.remove("is-inverted");
+            document.getElementById("triangle-btn").classList.remove("is-inverted");
+            document.getElementById("translation-btn").classList.remove("is-inverted");
+            document.getElementById("rotation-btn").classList.remove("is-inverted");
+            document.getElementById("scale-btn").classList.remove("is-inverted");
+            break;
+
         case(1):
             document.getElementById("line-btn").classList.add("is-inverted");
             document.getElementById("rectangle-btn").classList.remove("is-inverted");
@@ -106,7 +118,8 @@ function changeFunction(button) {
             document.getElementById("rectangle-btn").classList.remove("is-inverted");
             document.getElementById("circle-btn").classList.remove("is-inverted");
             document.getElementById("triangle-btn").classList.remove("is-inverted");
-            break;    
+            break;
+
         case(6):
             secondClick = callRotation(secondClick);
             document.getElementById("line-btn").classList.remove("is-inverted");
@@ -115,6 +128,7 @@ function changeFunction(button) {
             document.getElementById("triangle-btn").classList.remove("is-inverted");
             document.getElementById("scale-btn").classList.remove("is-inverted");
             break;
+
         case(7):
             secondClick = callScale(secondClick);
             document.getElementById("line-btn").classList.remove("is-inverted");
