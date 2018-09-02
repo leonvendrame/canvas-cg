@@ -5,21 +5,27 @@
 
 html {
     height: 100%;
+    width: 100%;
+}
+
+​* {
+    box-sizing: border-box;
 }
 
 body { 
-    background-color: #3a3a3a;   
+    background-color: #4a4a4a;   
     color: white;
-    /* height: 100%; */
+    height: 100%;
     width: 100%;
 }
 
 .bg {
-    background-color: #3a3a3a;
+    background-color: #4a4a4a;
     position: fixed;
-    height: 100%;
-    width: 100%;
-    z-index: 0;
+}
+
+.body-center {
+    background-color: #4a4a4a;   
 }
 
 .button:hover {
@@ -50,7 +56,7 @@ body {
     margin-left: 10px;
     margin-top: 10px;
     /* margin-right: 25px; */
-    /* width: 900px ; */
+    /* width: 100%; */
     /* height: 380px; */
     resize: horizontal;
     overflow: auto;
@@ -66,9 +72,8 @@ body {
     position: absolute;
     float: left;
     left: 15px;
-    top: 250px;
+    top: 290px;
 }
-
 
 .li-style:hover {
     cursor: pointer;
@@ -127,4 +132,16 @@ body {
 
 .modal-card-title {
     font-weight: 700;
+}
+
+.side-l {
+    flex: 40%;
+    width: 100%;
+    background-color: #4a4a4a;
+}
+
+.side-r {
+    flex: 80%;
+    width: 100%;
+    background-color: #4a4a4a;
 }

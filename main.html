@@ -19,21 +19,26 @@
             <li><button class="button is-dark is-rounded" id="triangle-btn"onclick="changeFunction(4)">Triângulo</button></li>
         </ul>
 
-        <ul class="transforms">
-            <li><button class="button is-dark is-rounded" id="translation-btn" onclick="changeFunction(5)">Transalação</button></li>
-            <li><button class="button is-dark is-rounded" id="rotation-btn" onclick="changeFunction(6)">Rotação</button></li>
-            <li><button class="button is-dark is-rounded" id="scale-btn"onclick="changeFunction(7)">M. de Escala</button></li>
-        </ul>
-        
-        <canvas id="workcanvas" onclick="storeGuess(event)" onmousemove="currentLine(event)" \
-        height="500px" width="1100px">Seu navegador não tem suporte à exibição. Por favor, tente em outro.</canvas>
-
-        <div id="list-of-shapes">
-            <ul id="shapes">
-                <li id="selection-list-title">Lista de Seleção</li>
+        <div class="side-l">
+            <ul class="transforms">
+                <li><button class="button is-dark is-rounded" id="translation-btn" onclick="changeFunction(5)">Transalação</button></li>
+                <li><button class="button is-dark is-rounded" id="rotation-btn" onclick="changeFunction(6)">Rotação</button></li>
+                <li><button class="button is-dark is-rounded" id="scale-btn"onclick="changeFunction(7)">M. de Escala</button></li>
+                <li><button class="button is-dark is-rounded" id="zoom-ext-btn"onclick="realZoomExtend()">Zoom Extend</button></li>
             </ul>
-        </div>
 
+            <div id="list-of-shapes">
+                <ul id="shapes">
+                    <li id="selection-list-title">Lista de Seleção</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="side-r">
+            <canvas id="workcanvas" onclick="storeGuess(event)" onmousemove="currentLine(event)" \
+            >Seu navegador não tem suporte à exibição. Por favor, tente em outro.</canvas>
+        </div>
+        
         <div class="body-center">
             <p id="mouse-position">Posição X: - Y: -</p>
             <br>
@@ -61,7 +66,7 @@
                     (1, 1), pois possuem pontos de origem diferentes (apesar de serem desenhadas da mesma
                     forma).<br>
                     <br>
-                    As transformações só podem ser utilizadas em formas selecionadas. Assim, deve-se
+                    As transformações só podem ser utilizadas em formas selecionadas (exceto o Zoom Extend e o Clear). Assim, deve-se
                     sempre selecionar um objeto antes de aplicar uma transformação.<br>
                     <br>
                     Para selecionar um objeto, utilize a linha de comando ou simplesmente clique em cima do nome
@@ -106,6 +111,9 @@
                     <span class="description">rotate g x y</span> - Aplica uma rotação de g graus em relação ao ponto (x, y).<br>
                     <span class="description">scale x y</span> - Aplica uma mudança de escala em x e y em relação ao ponto origem do objeto.<br>
                     <span class="description">scale x1 y1 x2 y2</span> - Aplica a mudança de escala em x1 e y1 em relação ao ponto (x2, y2).<br>
+                    <span class="description">extend</span> - Aplica o Zoom Extend, adaptando todos os objetos à tela.<br>
+                    <span class="description">remove</span> - Exclui o objeto selecionado.<br>
+                    <span class="description">clear</span> - Exclui todos os objetos criados.<br>
                 </p>
                 <br>
                 <i class="fas fa-check"></i>

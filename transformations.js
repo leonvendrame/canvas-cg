@@ -3,6 +3,7 @@ const size2D = 3;
 function translate(x, y) {
     if (!selectedShape) {
         alert("Erro: Selecione uma forma antes de aplicar a escala.");
+        return;
     } else {
         var shapeObjectMatrix = toHomogeneousMatrix(selectedShape);
     }
@@ -53,7 +54,7 @@ function scale(x, y, a, b) {
         a = selectedShape.points["origin"]["x"];
         b = selectedShape.points["origin"]["y"];
     }
-    var scaleM = scaleMatrix(x, y);;
+    var scaleM = scaleMatrix(x, y);
     var newPointsVector = [];
     var newPointsMatrix;
     var translateToOrigin = translationMatrix(-a, -b);
@@ -83,6 +84,7 @@ function scaleCircle(scale) {
 function rotate(angle, a, b) {
     if (!selectedShape) {
         alert("Erro: Selecione uma forma antes de aplicar a escala.");
+        return;
     } else {
         var shapeObjectMatrix = toHomogeneousMatrix(selectedShape);
     }
@@ -146,15 +148,68 @@ function multiply(matrixA, matrixB) {
     return matrixResult;
 }
 
-function zoomExtend() {
-    var xMin = canvas.width;
-    var xMax = 0;
-    var yMin = canvas.height;
-    var yMax = 0;
-    var newXMin = 50;
-    var newXMax = canvas.width - 50;
-    var newYMin = 50;
-    var newYMax = canvas.height - 50;
+function windowViewPort(xMin, xMax, yMin, yMax, uMin, uMax, vMin, vMax) {
+    if (!selectedShape) {
+        alert("Erro: Selecione uma forma antes de aplicar a escala.");
+        return;
+    } else {
+        var shapeObjectMatrix = toHomogeneousMatrix(selectedShape);
+    }
+
+    if (selectedShape.constructor.name == "Circle") {
+        var radius = selectedShape.radius;
+        var rectangle = [selectedShape.points["center"]["x"] - radius,
+                        selectedShape.points["center"]["y"] - radius,
+                        selectedShape.points["center"]["x"] + radius,
+                        selectedShape.points["center"]["y"] + radius];
+        
+        shapeObjectMatrix = [[rectangle[0], rectangle[2]], [rectangle[1], rectangle[3]], [1, 1]];
+    }
+
+    var x = (uMax - uMin) / (xMax - xMin);
+    var y = (vMax - vMin) / (yMax - yMin);
+
+    var scaleViewPort = scaleMatrix(x, y);
+    var newPointsVector = [];
+    var newPointsMatrix;
+    var translateToOrigin = translationMatrix(-xMin, -yMin);
+    var translateBack = translationMatrix(uMin, vMin);
+    
+    newPointsMatrix = multiply(translateBack, scaleViewPort);
+    newPointsMatrix = multiply(newPointsMatrix, translateToOrigin);
+    newPointsMatrix = multiply(newPointsMatrix, shapeObjectMatrix);
+
+    if (selectedShape.constructor.name != "Circle") {
+        for (var j = 0; j < shapeObjectMatrix[0].length; j++) {
+            for (var i = 0; i < size2D - 1; i++) {
+                newPointsVector.push(newPointsMatrix[i][j]);
+            }
+        }
+    } else {
+        rectangle[0] = newPointsMatrix[0][0];
+        rectangle[1] = newPointsMatrix[1][0];
+        rectangle[2] = newPointsMatrix[0][1];
+        rectangle[3] = newPointsMatrix[1][1];
+
+        if (Math.abs(rectangle[3] - rectangle[1]) < Math.abs(rectangle[2] - rectangle[0])) {
+            newPointsVector.push((rectangle[2] + rectangle[0]) / 2);
+            newPointsVector.push((rectangle[3] + rectangle[1]) / 2);
+            radius = ((rectangle[3] + rectangle[1]) / 2) - rectangle[1];
+        } else {
+            newPointsVector.push((rectangle[2] + rectangle[0]) / 2);
+            newPointsVector.push((rectangle[3] + rectangle[1]) / 2);
+            radius = ((rectangle[2] + rectangle[0]) / 2) - rectangle[0];
+        }
+    }
+
+    updatePoints(newPointsVector, selectedShape, radius);
+}
+
+/* function zoomExtend() {
+    var xMin = 999999;
+    var xMax = -99999;
+    var yMin = 999999;
+    var yMax = -99999;
 
     for (let shapeObject of shapesList) {
         if (shapeObject.constructor.name != "Circle") {
@@ -169,15 +224,17 @@ function zoomExtend() {
                     yMax = shapeObject.points[points]["y"];
                 }
             }
+        } else {
+            if ((shapeObject.points["center"]["x"] - shapeObject.radius) < xMin) {
+                xMin = shapeObject.points["center"]["x"] - shapeObject.radius;
+            } if ((shapeObject.points["center"]["x"] + shapeObject.radius) > xMax) {
+                xMax = shapeObject.points["center"]["x"] + shapeObject.radius;
+            } if ((shapeObject.points["center"]["y"] - shapeObject.radius) < yMin) {
+                yMin = shapeObject.points["center"]["y"] - shapeObject.radius;
+            } if ((shapeObject.points["center"]["y"] + shapeObject.radius) > yMax) {
+                yMax = shapeObject.points["center"]["y"] + shapeObject.radius;
+            }
         }
-    }
-    
-
-    for (let shapeObject in shapesList) {
-        select(shapeObject);
-        translate(-xMin, -yMin);
-        scale(1.5, 1.5, 0, 0);
-        unselect();
     }
 
     xMin -= 20;
@@ -185,13 +242,89 @@ function zoomExtend() {
     yMin -= 20;
     yMax += 20;
 
-    createRectangle([xMin, yMin, xMax, yMax]);
+    var centerDrawing = {}; var centerCanvas = {};
+    var trans = {};
+
+    centerDrawing["x"] = (xMax + xMin) / 2;
+    centerDrawing["y"] = (yMax + yMin) / 2;
+
+    console.log("center d: ", centerDrawing["x"], centerDrawing["y"]);
+
+    centerCanvas["x"] = canvas.width / 2;
+    centerCanvas["y"] = canvas.height / 2;
+
+    console.log("center c: ", centerCanvas["x"], centerCanvas["y"]);
+
+    trans["x"] = centerDrawing["x"] - centerCanvas["x"];
+    trans["y"] = centerDrawing["y"] - centerCanvas["y"];
+
+    for (let index in shapesList) {
+        select(index);
+        translate(-trans["x"], -trans["y"]);
+        unselect();
+    }
+
+    console.log(trans["x"], trans["y"]);
+
+    //createRectangle([xMin, yMin, xMax, yMax]);
 
     console.log(xMin, xMax, yMin, yMax);
     clearCanvas(true);
     reDrawEverything();
 }
 
-function zoomIn() {
+*/
 
+function realZoomExtend() {
+    var xMin = 999999;
+    var xMax = -99999;
+    var yMin = 999999;
+    var yMax = -99999;
+
+    var uMin, uMax, vMin, vMax;
+
+    for (let shapeObject of shapesList) {
+        if (shapeObject.constructor.name != "Circle") {
+            for (let points of Object.keys(shapeObject.points)) {
+                if (shapeObject.points[points]["x"] < xMin) {
+                    xMin = shapeObject.points[points]["x"];
+                } if (shapeObject.points[points]["x"] > xMax) {
+                    xMax = shapeObject.points[points]["x"];
+                } if (shapeObject.points[points]["y"] < yMin) {
+                    yMin = shapeObject.points[points]["y"];
+                } if (shapeObject.points[points]["y"] > yMax) {
+                    yMax = shapeObject.points[points]["y"];
+                }
+            }
+        } else {
+            if ((shapeObject.points["center"]["x"] - shapeObject.radius) < xMin) {
+                xMin = shapeObject.points["center"]["x"] - shapeObject.radius;
+            } if ((shapeObject.points["center"]["x"] + shapeObject.radius) > xMax) {
+                xMax = shapeObject.points["center"]["x"] + shapeObject.radius;
+            } if ((shapeObject.points["center"]["y"] - shapeObject.radius) < yMin) {
+                yMin = shapeObject.points["center"]["y"] - shapeObject.radius;
+            } if ((shapeObject.points["center"]["y"] + shapeObject.radius) > yMax) {
+                yMax = shapeObject.points["center"]["y"] + shapeObject.radius;
+            }
+        }
+    }
+
+    xMin -= 20;
+    xMax += 20;
+    yMin -= 20;
+    yMax += 20;
+
+    uMin = 20;
+    uMax = canvas.width - 20;
+    vMin = 20;
+    vMax = canvas.height - 20;
+
+    for (var shapeObject in shapesList) {
+        select(shapeObject);
+        windowViewPort(xMin, xMax, yMin, yMax, uMin, uMax, vMin, vMax);
+        unselect();
+    }
+
+    clearCanvas(true);
+    reDrawEverything();
 }

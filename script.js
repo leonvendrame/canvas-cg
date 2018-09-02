@@ -1,7 +1,14 @@
+/*  Aluno: Leonardo Vendrame     RA: 90562
+    O código não está otimizado, podendo possuir alguns pequenos problemas. */
+
 var canvas = document.getElementById("workcanvas");
 var commandLine = document.getElementById("commandLine");
 var context = canvas.getContext("2d");
 var selectionList = document.getElementById("shapes");
+
+context.canvas.width = window.innerWidth - 200;
+context.canvas.height = window.innerHeight - 200;
+
 var globalOption = 0;
 var id = 0;
 var firstTimeShape = {"line": true, "circle": true, "rectangle": true, "triangle":true};
@@ -20,6 +27,12 @@ var minPointY = 0;
 var maxPointX = canvas.width;
 var minPointY = canvas.height;
 
+window.addEventListener('resize', function(event){
+    context.canvas.width = window.innerWidth - 200;
+    context.canvas.height = window.innerHeight - 200;
+    reDrawEverything();
+});
+
 commandLine.addEventListener("keyup", function(event) {
     event.preventDefault();
     if (event.keyCode === 13) {
@@ -31,13 +44,16 @@ function submitCommandLine() {
     const commandDict = {
         "line": "createLine(commands);",
         "rectangle": "createRectangle(commands);",
-        "circle": "createCircle(commands);",
+        "circle": "createCircle([commands[0], commands[1]], commands[2]);",
         "triangle": "createTriangle(commands);",
         "select": "select(commands[0]);",
         "unselect": "unselect(commands[0]);",
         "scale": "scale(commands[0], commands[1], commands[2], commands[3]);",
         "rotate": "rotate(commands[0], commands[1], commands[2]);",
-        "translate": "translate(commands[0], commands[1]);"
+        "translate": "translate(commands[0], commands[1]);",
+        "extend": "realZoomExtend();",
+        "remove": "remove();",
+        "clear": "clearCanvas();"
     };
 
     try {
@@ -46,6 +62,9 @@ function submitCommandLine() {
         if (!commandDict[shape]) throw "Erro: Comando não reconhecido.";
         const createCommandLine = commandDict[shape];
         // console.log(createCommandLine);
+        for (let cmd in commands) {
+            commands[cmd] = Number(commands[cmd]);
+        }
         eval(createCommandLine);
     } catch(err) {
         console.log(err);
@@ -73,6 +92,9 @@ function changeFunction(button) {
             document.getElementById("rectangle-btn").classList.remove("is-inverted");
             document.getElementById("circle-btn").classList.remove("is-inverted");
             document.getElementById("triangle-btn").classList.remove("is-inverted");
+            document.getElementById("translation-btn").classList.remove("is-inverted");
+            document.getElementById("rotation-btn").classList.remove("is-inverted");
+            document.getElementById("scale-btn").classList.remove("is-inverted");
             if (firstTimeShape["line"]) {
                 alert("Clique nos pontos de origem e destino da reta dentro da tela delimitada.");
                 firstTimeShape["line"] = false;
@@ -84,6 +106,9 @@ function changeFunction(button) {
             document.getElementById("rectangle-btn").classList.add("is-inverted");
             document.getElementById("circle-btn").classList.remove("is-inverted");
             document.getElementById("triangle-btn").classList.remove("is-inverted");
+            document.getElementById("translation-btn").classList.remove("is-inverted");
+            document.getElementById("rotation-btn").classList.remove("is-inverted");
+            document.getElementById("scale-btn").classList.remove("is-inverted");
             if (firstTimeShape["rectangle"]) {
                 alert("Clique nos pontos de origem e destino da diagonal que formará o retângulo dentro da tela delimitada.");
                 firstTimeShape["rectangle"] = false;
@@ -95,6 +120,9 @@ function changeFunction(button) {
             document.getElementById("rectangle-btn").classList.remove("is-inverted");
             document.getElementById("circle-btn").classList.add("is-inverted");
             document.getElementById("triangle-btn").classList.remove("is-inverted");
+            document.getElementById("translation-btn").classList.remove("is-inverted");
+            document.getElementById("rotation-btn").classList.remove("is-inverted");
+            document.getElementById("scale-btn").classList.remove("is-inverted");
             if (firstTimeShape["circle"]) {
                 alert("Clique no ponto que será o centro do círculo e após isso o ponto que definirá o raio do mesmo na tela delimitada.");
                 firstTimeShape["circle"] = false;
@@ -106,6 +134,9 @@ function changeFunction(button) {
             document.getElementById("rectangle-btn").classList.remove("is-inverted");
             document.getElementById("circle-btn").classList.remove("is-inverted");
             document.getElementById("triangle-btn").classList.add("is-inverted");
+            document.getElementById("translation-btn").classList.remove("is-inverted");
+            document.getElementById("rotation-btn").classList.remove("is-inverted");
+            document.getElementById("scale-btn").classList.remove("is-inverted");
             if (firstTimeShape["triangle"]) {
                 alert("Clique nos três pontos que formarão o triângulo dentro da tela delimitada.");
                 firstTimeShape["triangle"] = false;
@@ -287,11 +318,15 @@ function reDrawEverything() {
 }
 
 function clearCanvas(keep = false) {
-    context.clearRect(0, 0, canvas.width, canvas.height);
     if (!keep) {
+        let confirmed = confirm("Atenção! Isso apagará todos os objetos.");
+        if (!confirmed) {
+            return;
+        }
         shapesList = [];
         selectionList.innerHTML = `<li id="selection-list-title">Lista de Seleção</li>`
     }
+    context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function help(open = false) {

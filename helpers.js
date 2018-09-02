@@ -52,6 +52,11 @@ function remove() {
     if (!shapeObject) {
         alert("Erro: Selecione uma forma antes de deletar.");
         return;
+    } else {
+        let confirmed = confirm("Atenção! Isso apagará o objeto selecionado.");
+        if (!confirmed) {
+            return;
+        }
     }
 
     index = shapesList.indexOf(shapeObject);
@@ -130,7 +135,7 @@ function callScale(secondClick, coordinates) {
     if (selectedShape.constructor.name == "Circle") {
         let newScale = prompt("Digite o valor que deseja escalar o raio.", "Ex: 2");
         newScale = newScale.replace(/[^0-9|\s|\-|\.]/gi, "").replace(/[\s]{2,}/gi, " ").trim();
-        if (newScale <= 0) {
+        if (newScale == 0) {
             alert("Valor Inválido.");
         } else {
             scale(newScale);
@@ -169,7 +174,7 @@ function callScale(secondClick, coordinates) {
                 scaleVector.push(secondPos);
             }
 
-            if (scaleVector[0] <= 0 || scaleVector[1] <= 0) {
+            if (scaleVector[0] == 0 || scaleVector[1] == 0) {
                 alert("Valor Inválido.");
             } else {
                 scale(scaleVector[0], scaleVector[1], coordinates[0], coordinates[1]);
